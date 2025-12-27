@@ -1,0 +1,249 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  users UserRole[]
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  firstName    String
+  lastName     String
+  email        String    @unique
+  passwordHash String
+  phone        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  roles        UserRole[]
+  timesheets   Timesheet[] @relation("TimesheetOwner")
+  validatedTimesheets Timesheet[] @relation("TimesheetValidator")
+  eventAssignments EventBuvette[] @relation("EventResponsable")
+  inventorySnapshots InventorySnapshot[] @relation("InventoryCreator")
+  checklistFilled ChecklistResponse[] @relation("ChecklistFilledBy")
+  checklistValidated ChecklistResponse[] @relation("ChecklistValidatedBy")
+}
+
+model UserRole {
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+  role   Role @relation(fields: [roleId], references: [id])
+  roleId Int
+  @@id([userId, roleId])
+}
+
+model Buvette {
+  id          Int            @id @default(autoincrement())
+  name        String
+  locationType String
+  sport       String         @default("FOOT") // FOOT or HOCKEY
+  isActive    Boolean        @default(true)
+  eventLinks  EventBuvette[]
+  timesheets  Timesheet[]
+  inventorySnapshots InventorySnapshot[]
+  inventoryDeltas    InventoryDelta[]
+  checklistResponses ChecklistResponse[]
+  staffAssignments   StaffAssignment[]
+  products           BuvetteProduct[]
+}
+
+model Event {
+  id          Int            @id @default(autoincrement())
+  name        String
+  date        DateTime
+  venue       String?
+  sport       String         @default("FOOT") // FOOT or HOCKEY
+  openingTime DateTime?
+  matchTime   DateTime?
+  notes       String?
+  buvettes    EventBuvette[]
+  timesheets  Timesheet[]
+  inventorySnapshots InventorySnapshot[]
+  checklistResponses ChecklistResponse[]
+  inventoryDeltas InventoryDelta[]
+  staffAssignments StaffAssignment[]
+}
+
+model EventBuvette {
+  id            Int      @id @default(autoincrement())
+  event         Event    @relation(fields: [eventId], references: [id])
+  eventId       Int
+  buvette       Buvette  @relation(fields: [buvetteId], references: [id])
+  buvetteId     Int
+  responsable   User?    @relation("EventResponsable", fields: [responsableId], references: [id])
+  responsableId Int?
+  @@unique([eventId, buvetteId])
+}
+
+model StaffMember {
+  id             Int      @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  email          String?
+  phone          String?
+  hourlyRate     Float?
+  contractNumber String?
+  staffType      String   @default("EXTRA")
+  shifts         Shift[]
+  assignments    StaffAssignment[]
+}
+
+model StaffAssignment {
+  id          Int         @id @default(autoincrement())
+  eventId     Int
+  buvetteId   Int
+  staffId     Int
+  arrivalTime String?     // Heure d'arrivée assignée (format "HH:mm")
+  slotIndex   Int?        // Index du créneau (1, 2, 3, 4)
+  event       Event       @relation(fields: [eventId], references: [id])
+  buvette     Buvette     @relation(fields: [buvetteId], references: [id])
+  staff       StaffMember @relation(fields: [staffId], references: [id])
+  @@unique([eventId, buvetteId, staffId])
+}
+
+model Timesheet {
+  id            Int      @id @default(autoincrement())
+  event         Event    @relation(fields: [eventId], references: [id])
+  eventId       Int
+  buvette       Buvette  @relation(fields: [buvetteId], references: [id])
+  buvetteId     Int
+  responsable   User?    @relation("TimesheetOwner", fields: [responsableId], references: [id])
+  responsableId Int?
+  status        String   @default("DRAFT")
+  validatedBy   User?    @relation("TimesheetValidator", fields: [validatedById], references: [id])
+  validatedById Int?
+  validatedAt   DateTime?
+  shifts        Shift[]
+}
+
+model Shift {
+  id           Int      @id @default(autoincrement())
+  timesheet    Timesheet @relation(fields: [timesheetId], references: [id])
+  timesheetId  Int
+  staff        StaffMember @relation(fields: [staffId], references: [id])
+  staffId      Int
+  position     String
+  startTime    DateTime
+  endTime      DateTime
+  breakMinutes Int      @default(0)
+  hoursWorked  Float?
+  notes        String?
+}
+
+model Product {
+  id        Int     @id @default(autoincrement())
+  name      String
+  category  String?
+  unit      String?
+  isActive  Boolean @default(true)
+  items     InventoryItem[]
+  deltas    InventoryDelta[]
+  buvettes  BuvetteProduct[]
+}
+
+model BuvetteProduct {
+  id           Int     @id @default(autoincrement())
+  buvette      Buvette @relation(fields: [buvetteId], references: [id])
+  buvetteId    Int
+  product      Product @relation(fields: [productId], references: [id])
+  productId    Int
+  displayOrder Int?
+  defaultStock Float?  // Stock par défaut pour cette buvette
+  @@unique([buvetteId, productId])
+}
+
+model InventorySnapshot {
+  id         Int      @id @default(autoincrement())
+  event      Event    @relation(fields: [eventId], references: [id])
+  eventId    Int
+  buvette    Buvette  @relation(fields: [buvetteId], references: [id])
+  buvetteId  Int
+  type       String
+  createdBy  User?    @relation("InventoryCreator", fields: [createdById], references: [id])
+  createdById Int?
+  createdAt  DateTime @default(now())
+  items      InventoryItem[]
+}
+
+model InventoryItem {
+  id          Int      @id @default(autoincrement())
+  snapshot    InventorySnapshot @relation(fields: [snapshotId], references: [id])
+  snapshotId  Int
+  product     Product  @relation(fields: [productId], references: [id])
+  productId   Int
+  quantity    Float
+  loss        Float?   @default(0)
+  comment     String?
+}
+
+model InventoryDelta {
+  id               Int     @id @default(autoincrement())
+  event            Event   @relation(fields: [eventId], references: [id])
+  eventId          Int
+  buvette          Buvette @relation(fields: [buvetteId], references: [id])
+  buvetteId        Int
+  product          Product @relation(fields: [productId], references: [id])
+  productId        Int
+  initialQty       Float?
+  finalQty         Float?
+  theoreticalSales Float?
+  delta            Float?
+  restockQuantity  Float?
+  isRestocked      Boolean @default(false)
+  hasShortage      Boolean @default(false)
+  shortageQty      Float?
+  @@unique([eventId, buvetteId, productId], name: "eventId_buvetteId_productId")
+}
+
+model ChecklistTemplate {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String?
+  scope       String?
+  items       ChecklistItem[]
+  responses   ChecklistResponse[]
+}
+
+model ChecklistItem {
+  id         Int    @id @default(autoincrement())
+  template   ChecklistTemplate @relation(fields: [templateId], references: [id])
+  templateId Int
+  label      String
+  orderIndex Int
+  responses  ChecklistResponseItem[]
+}
+
+model ChecklistResponse {
+  id           Int    @id @default(autoincrement())
+  event        Event  @relation(fields: [eventId], references: [id])
+  eventId      Int
+  buvette      Buvette @relation(fields: [buvetteId], references: [id])
+  buvetteId    Int
+  template     ChecklistTemplate @relation(fields: [templateId], references: [id])
+  templateId   Int
+  filledBy     User? @relation("ChecklistFilledBy", fields: [filledById], references: [id])
+  filledById   Int?
+  filledAt     DateTime @default(now())
+  validatedBy  User? @relation("ChecklistValidatedBy", fields: [validatedById], references: [id])
+  validatedById Int?
+  validatedAt  DateTime?
+  status       String  @default("DRAFT")
+  items        ChecklistResponseItem[]
+}
+
+model ChecklistResponseItem {
+  id         Int    @id @default(autoincrement())
+  response   ChecklistResponse @relation(fields: [responseId], references: [id])
+  responseId Int
+  item       ChecklistItem @relation(fields: [itemId], references: [id])
+  itemId     Int
+  value      Boolean?
+  comment    String?
+}

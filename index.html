@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion – Plateforme Buvette | Prime&Co</title>
+    <meta name="description" content="Plateforme de gestion des buvettes Prime&Co - Connexion sécurisée">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8f8f9 0%, #f0f0f2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Grenat bar */
+        .grenat-bar {
+            height: 4px;
+            background: linear-gradient(90deg, #601D2B, #C9A227);
+        }
+
+        /* Header */
+        .login-header {
+            text-align: center;
+            padding: 40px 20px 20px;
+        }
+
+        .logo-img {
+            height: 60px;
+            margin-bottom: 16px;
+        }
+
+        .logo-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Main container */
+        .login-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        /* Cards */
+        .login-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            padding: 32px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--border);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: white;
+        }
+
+        .card-icon.admin {
+            background: linear-gradient(135deg, #601D2B, #7a2d3d);
+        }
+
+        .card-icon.manager {
+            background: linear-gradient(135deg, #C9A227, #A68820);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .card-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Status badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: rgba(201, 162, 39, 0.1);
+            border: 1px solid rgba(201, 162, 39, 0.2);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            color: #A68820;
+            margin-bottom: 20px;
+        }
+
+        .status-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #C9A227;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Buttons */
+        .btn-admin {
+            background: linear-gradient(135deg, #601D2B, #4a1621);
+            color: white;
+            box-shadow: 0 4px 14px rgba(96, 29, 43, 0.3);
+        }
+
+        .btn-admin:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(96, 29, 43, 0.4);
+        }
+
+        .btn-manager {
+            background: linear-gradient(135deg, #C9A227, #A68820);
+            color: white;
+            box-shadow: 0 4px 14px rgba(201, 162, 39, 0.3);
+        }
+
+        .btn-manager:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201, 162, 39, 0.4);
+        }
+
+        /* Forms */
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            padding-left: 44px;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            stroke: var(--text-muted);
+        }
+
+        /* Back link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 16px;
+            padding: 8px 0;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+        .back-link svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+        }
+
+        /* Footer */
+        .login-footer {
+            text-align: center;
+            padding: 24px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .login-footer a {
+            color: var(--primary);
+        }
+
+        /* Spinner */
+        .btn .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+
+        .btn.loading .spinner {
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .login-container {
+                flex-direction: column;
+            }
+
+            .login-card {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Grenat bar -->
+    <div class="grenat-bar"></div>
+
+    <!-- Header -->
+    <header class="login-header">
+        <img src="primeco_branding_2550x1440_logo_1-1500x847.jpg" alt="Prime&Co" class="logo-img">
+        <p class="logo-text">Plateforme de gestion des buvettes</p>
+    </header>
+
+    <!-- Login Container -->
+    <div class="login-container">
+        <!-- Admin Card -->
+        <div class="login-card fade-in">
+            <div class="card-header">
+                <div class="card-icon admin">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="card-title">Connexion Admin</h2>
+                    <p class="card-subtitle">Chefs des opérations & Logisticiens</p>
+                </div>
+            </div>
+
+            <form id="admin-form">
+                <div class="field">
+                    <label for="email">Email professionnel</label>
+                    <div class="input-wrapper">
+                        <input id="email" type="email" placeholder="nom@primeco.ch" required autocomplete="email">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke-width="2">
+                            <rect width="20" height="16" x="2" y="4" rx="2" />
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="password">Mot de passe</label>
+                    <div class="input-wrapper">
+                        <input id="password" type="password" placeholder="••••••••" required
+                            autocomplete="current-password">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke-width="2">
+                            <rect width="18" height="11" x="3" y="11" rx="2" />
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-admin" style="width: 100%;">
+                    <span class="spinner"></span>
+                    <span class="btn-text">Se connecter</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Manager Card -->
+        <div class="login-card fade-in stagger-1">
+            <div class="card-header">
+                <div class="card-icon manager">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="card-title">Accès Responsable</h2>
+                    <p class="card-subtitle">Responsables de buvette</p>
+                </div>
+            </div>
+
+            <div id="step-1">
+                <div class="status-badge">
+                    <span class="dot"></span>
+                    Accès rapide sans mot de passe
+                </div>
+                <button id="btn-responsable" class="btn btn-manager" style="width: 100%;">
+                    <span class="btn-text">Je suis responsable de buvette</span>
+                </button>
+            </div>
+
+            <!-- Step 2: Event Selection -->
+            <div id="step-2" class="hidden fade-in">
+                <div class="field">
+                    <label for="event-select">Sélectionnez l'événement</label>
+                    <select id="event-select">
+                        <option value="">Chargement...</option>
+                    </select>
+                </div>
+                <button id="btn-select-event" class="btn btn-manager" style="width: 100%;" disabled>
+                    <span class="btn-text">Continuer</span>
+                </button>
+                <div style="text-align: center;">
+                    <a href="#" id="back-step-1" class="back-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                            <path d="m15 18-6-6 6-6" />
+                        </svg>
+                        Retour
+                    </a>
+                </div>
+            </div>
+
+            <!-- Step 3: Buvette Selection -->
+            <div id="step-3" class="hidden fade-in">
+                <div
+                    style="margin-bottom: 16px; padding: 10px 14px; background: rgba(96, 29, 43, 0.05); border: 1px solid rgba(96, 29, 43, 0.1); border-radius: 10px; font-size: 0.85rem; color: var(--primary);">
+                    <span id="selected-event-name"></span>
+                </div>
+                <div class="field">
+                    <label for="buvette-select">Choisissez votre buvette</label>
+                    <select id="buvette-select">
+                        <option value="">Chargement...</option>
+                    </select>
+                </div>
+                <button id="btn-enter-buvette" class="btn btn-manager" style="width: 100%;" disabled>
+                    <span class="btn-text">Entrer dans la buvette</span>
+                </button>
+                <div style="text-align: center;">
+                    <a href="#" id="back-step-2" class="back-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                            <path d="m15 18-6-6 6-6" />
+                        </svg>
+                        Changer d'événement
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="login-footer">
+        <p>© 2025 <a href="#">Prime&Co</a> · Tous droits réservés</p>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="shared.js"></script>
+    <script>
+        // Toast notification
+        function showToast(message, type = 'error') {
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" style="width: 20px; height: 20px; stroke: currentColor;">
+                    ${type === 'success'
+                    ? '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>'
+                    : '<circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>'}
+                </svg>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // --- Admin Flow ---
+        document.getElementById("admin-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const btn = e.target.querySelector("button");
+
+            try {
+                btn.disabled = true;
+                btn.classList.add('loading');
+
+                const res = await fetch(`${API_URL}/auth/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(data.message || "Erreur de connexion");
+                }
+
+                localStorage.setItem("access_token", data.access_token);
+                localStorage.setItem("refresh_token", data.refresh_token);
+                localStorage.setItem("user", JSON.stringify(data.user));
+
+                const roles = data.user.roles || [];
+                if (roles.includes("ADMIN")) {
+                    window.location.href = "admin.html";
+                } else if (roles.includes("CHEF_OPS") || roles.includes("LOG")) {
+                    window.location.href = "timesheets.html?role=chef";
+                } else {
+                    window.location.href = "timesheets.html?role=rb";
+                }
+
+            } catch (err) {
+                console.error(err);
+                showToast("Erreur : " + err.message);
+                btn.disabled = false;
+                btn.classList.remove('loading');
+            }
+        });
+
+        // --- Manager Flow ---
+        const step1 = document.getElementById("step-1");
+        const step2 = document.getElementById("step-2");
+        const step3 = document.getElementById("step-3");
+        const eventSelect = document.getElementById("event-select");
+        const buvetteSelect = document.getElementById("buvette-select");
+        const btnSelectEvent = document.getElementById("btn-select-event");
+        const btnEnter = document.getElementById("btn-enter-buvette");
+
+        let selectedEventId = null;
+        let selectedEventName = null;
+
+        // Step 1 -> Step 2: Load events
+        document.getElementById("btn-responsable").addEventListener("click", async () => {
+            step1.classList.add("hidden");
+            step2.classList.remove("hidden");
+
+            try {
+                eventSelect.innerHTML = '<option value="">Chargement...</option>';
+                const res = await fetch(`${API_URL}/events`);
+                if (!res.ok) throw new Error("Erreur chargement");
+                const events = await res.json();
+
+                const activeEvents = events
+                    .filter(e => e.buvettes && e.buvettes.length > 0)
+                    .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+                if (activeEvents.length === 0) {
+                    eventSelect.innerHTML = '<option value="">Aucun événement actif</option>';
+                    return;
+                }
+
+                eventSelect.innerHTML = '<option value="">Sélectionnez un événement</option>';
+                activeEvents.forEach(e => {
+                    const opt = document.createElement("option");
+                    opt.value = e.id;
+                    const date = new Date(e.date).toLocaleDateString('fr-CH', {
+                        weekday: 'short',
+                        day: 'numeric',
+                        month: 'short',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    opt.textContent = `${e.name} (${date})`;
+                    opt.dataset.name = e.name;
+                    eventSelect.appendChild(opt);
+                });
+            } catch (err) {
+                console.error(err);
+                eventSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+                showToast("Impossible de charger les événements");
+            }
+        });
+
+        eventSelect.addEventListener("change", () => {
+            btnSelectEvent.disabled = !eventSelect.value;
+        });
+
+        // Step 2 -> Step 3: Load buvettes
+        btnSelectEvent.addEventListener("click", async () => {
+            selectedEventId = eventSelect.value;
+            const selectedOption = eventSelect.options[eventSelect.selectedIndex];
+            selectedEventName = selectedOption.dataset.name;
+
+            if (!selectedEventId) return;
+
+            step2.classList.add("hidden");
+            step3.classList.remove("hidden");
+
+            document.getElementById("selected-event-name").textContent = `📅 ${selectedEventName}`;
+
+            try {
+                buvetteSelect.innerHTML = '<option value="">Chargement...</option>';
+                const res = await fetch(`${API_URL}/events/${selectedEventId}/buvettes`);
+                if (!res.ok) throw new Error("Erreur chargement");
+                const eventBuvettes = await res.json();
+
+                if (eventBuvettes.length === 0) {
+                    buvetteSelect.innerHTML = '<option value="">Aucune buvette</option>';
+                    return;
+                }
+
+                buvetteSelect.innerHTML = '<option value="">Sélectionnez votre buvette</option>';
+                eventBuvettes.forEach(eb => {
+                    const b = eb.buvette || eb;
+                    const opt = document.createElement("option");
+                    opt.value = b.id;
+                    opt.textContent = b.name;
+                    buvetteSelect.appendChild(opt);
+                });
+            } catch (err) {
+                console.error(err);
+                buvetteSelect.innerHTML = '<option value="">Erreur</option>';
+                showToast("Impossible de charger les buvettes");
+            }
+        });
+
+        buvetteSelect.addEventListener("change", () => {
+            btnEnter.disabled = !buvetteSelect.value;
+        });
+
+        // Back navigation
+        document.getElementById("back-step-1").addEventListener("click", (e) => {
+            e.preventDefault();
+            step2.classList.add("hidden");
+            step1.classList.remove("hidden");
+        });
+
+        document.getElementById("back-step-2").addEventListener("click", (e) => {
+            e.preventDefault();
+            step3.classList.add("hidden");
+            step2.classList.remove("hidden");
+            btnEnter.disabled = true;
+        });
+
+        // Enter buvette
+        btnEnter.addEventListener("click", () => {
+            const buvetteId = buvetteSelect.value;
+            const buvetteName = buvetteSelect.options[buvetteSelect.selectedIndex].text;
+
+            if (buvetteId && selectedEventId) {
+                localStorage.setItem("mode", "RESPONSABLE");
+                localStorage.setItem("event_id", selectedEventId);
+                localStorage.setItem("event_name", selectedEventName);
+                localStorage.setItem("buvette_id", buvetteId);
+                localStorage.setItem("buvette_name", buvetteName);
+                window.location.href = "responsable.html";
+            }
+        });
+
+        // Clear context on load
+        localStorage.removeItem("mode");
+        localStorage.removeItem("event_id");
+        localStorage.removeItem("event_name");
+        localStorage.removeItem("buvette_id");
+        localStorage.removeItem("buvette_name");
+    </script>
+</body>
+
+</html>

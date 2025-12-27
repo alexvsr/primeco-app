@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: primeco-api
+    env: node
+    region: frankfurt
+    plan: free
+    buildCommand: npm install && npx prisma generate
+    startCommand: npm start
+    healthCheckPath: /api/buvettes
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: JWT_ACCESS_EXPIRES_IN
+        value: 1h
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: 7d
+      - key: NODE_ENV
+        value: production
+
+databases:
+  - name: primeco-db
+    databaseName: primeco
+    user: primeco
+    plan: free
+    region: frankfurt
