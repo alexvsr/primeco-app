@@ -1,1 +1,32 @@
-node_modules
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local
+
+# Database
+prisma/dev.db
+prisma/dev.db-journal
+
+# IDE
+.vscode/
+.idea/
+.qodo/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.log
+*.tmp
+
+# Excel data files (optional - remove if you want to track them)
+*.xlsx
+*.xlsb
+~$*
+
+# Build output
+dist/
+build/
