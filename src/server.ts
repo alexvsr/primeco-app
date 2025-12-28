@@ -9,7 +9,14 @@ import path from "path";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    "https://prime-co.alexvavasseur.ch",
+    "http://localhost:3000",
+    "http://localhost:5500"
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 // Serve static files from root directory
