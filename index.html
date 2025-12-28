@@ -6,645 +6,180 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Connexion – Prime&Co</title>
     <meta name="description" content="Plateforme de gestion des buvettes Prime&Co">
+
+    <!-- Fonts: Inter for pro look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="shared.css">
+
     <style>
-        :root {
-            --primary: #601D2B;
-            --primary-dark: #4a1621;
-            --gold: #C9A227;
-            --gold-light: #e5c155;
-            --text-main: #1F2937;
-            --text-muted: #6B7280;
-            --bg-page: #F3F4F6;
-            --white: #ffffff;
-            --radius-lg: 24px;
-            --radius-md: 16px;
-            --shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
-            --shadow-hover: 0 20px 50px -10px rgba(96, 29, 43, 0.15);
-        }
-
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        /* Page-specific overrides */
         body {
-            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
             background: radial-gradient(circle at top right, #f8f1f2 0%, #f3f4f6 100%);
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            margin: 0;
-            padding: 0;
-            color: var(--text-main);
-            overflow-x: hidden;
         }
 
-        /* Top Bar */
-        .top-accent {
-            height: 6px;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--gold) 50%, var(--primary) 100%);
-            box-shadow: 0 2px 15px rgba(201, 162, 39, 0.4);
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-        }
-
-        /* Header */
-        .header-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 20px 40px;
-            flex-shrink: 0;
-        }
-
-        .logo-wrapper {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 24px 48px;
-            border-radius: var(--radius-lg);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow:
-                0 4px 6px -1px rgba(0, 0, 0, 0.02),
-                0 10px 15px -3px rgba(0, 0, 0, 0.04),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.6);
-            margin-bottom: 24px;
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .logo-wrapper:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .logo-img {
-            height: 90px;
-            display: block;
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.05));
-        }
-
-        .brand-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            letter-spacing: -0.01em;
-            font-weight: 400;
-        }
-
-        .brand-subtitle strong {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* Main Grid */
-        .login-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 32px;
-            max-width: 960px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 20px;
-            flex: 1;
-            align-items: start;
-        }
-
-        /* Cards */
-        .login-card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 40px;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid rgba(0, 0, 0, 0.03);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .login-card:hover {
-            box-shadow: var(--shadow-hover);
-            transform: translateY(-2px);
-        }
-
-        .card-header {
-            margin-bottom: 32px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .icon-box {
-            width: 56px;
-            height: 56px;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            color: var(--text-main);
-        }
-
-        .icon-box.admin-bg {
-            background: linear-gradient(135deg, var(--primary), #3E101A);
-            color: white;
-            box-shadow: 0 8px 20px -6px rgba(96, 29, 43, 0.4);
-        }
-
-        .icon-box.manager-bg {
-            background: linear-gradient(135deg, var(--gold), #A68820);
-            color: white;
-            box-shadow: 0 8px 20px -6px rgba(201, 162, 39, 0.4);
-        }
-
-        .card-titles h2 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin: 0 0 6px 0;
-            color: var(--text-main);
-            letter-spacing: -0.02em;
-        }
-
-        .card-titles p {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin: 0;
-            line-height: 1.4;
-        }
-
-        /* Forms & Inputs */
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 500;
-            color: var(--text-main);
-            font-size: 0.95rem;
-        }
-
-        .input-group {
-            position: relative;
-        }
-
-        .input-group input,
-        .input-group select {
-            width: 100%;
-            height: 56px;
-            /* iPad friendly */
-            padding: 0 20px 0 50px;
-            border-radius: 12px;
-            border: 2px solid #E5E7EB;
-            background: #FAFAFA;
-            font-size: 1rem;
-            color: var(--text-main);
-            transition: all 0.2s ease;
-            font-family: inherit;
-            appearance: none;
-        }
-
-        .input-group select {
-            padding-right: 40px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 16px center;
-            background-size: 20px;
-        }
-
-        .input-group input:focus,
-        .input-group select:focus {
-            outline: none;
-            border-color: var(--gold);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.1);
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 22px;
-            height: 22px;
-            color: #9CA3AF;
-            pointer-events: none;
-            transition: color 0.2s;
-        }
-
-        .input-group input:focus+.input-icon,
-        .input-group input:focus~.input-icon {
-            color: var(--gold);
-        }
-
-        /* Buttons */
-        .btn-xl {
-            width: 100%;
-            height: 56px;
-            border-radius: 14px;
-            font-size: 1.05rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-xl:active {
-            transform: scale(0.98);
-        }
-
-        .btn-primary-admin {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary-admin:hover {
-            background: var(--primary-dark);
-            box-shadow: 0 10px 25px -5px rgba(96, 29, 43, 0.4);
-        }
-
-        .btn-primary-manager {
-            background: var(--gold);
-            color: white;
-        }
-
-        .btn-primary-manager:hover {
-            background: #b59020;
-            box-shadow: 0 10px 25px -5px rgba(201, 162, 39, 0.4);
-        }
-
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            background: #E5E7EB;
-            color: #9CA3AF;
-            box-shadow: none;
-        }
-
-        /* Flow Badges */
-        .flow-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 14px;
-            background: #FFFBEB;
-            color: #92400E;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #FDE68A;
-        }
-
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background: #F59E0B;
-            border-radius: 50%;
-            box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4);
+        /* Touch friendly overrides */
+        @media (pointer: coarse) {
+            .btn {
+                min-height: 56px;
             }
 
-            70% {
-                box-shadow: 0 0 0 6px rgba(245, 158, 11, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
-            }
-        }
-
-        /* Context Card */
-        .context-card {
-            background: linear-gradient(to right, #FFFBEB, #ffffff);
-            border: 1px solid #FEF3C7;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .context-icon {
-            color: #D97706;
-        }
-
-        .context-text {
-            font-size: 0.95rem;
-            color: #92400E;
-            font-weight: 500;
-        }
-
-        /* Back Links */
-        .back-nav {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .link-subtle {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 10px;
-            border-radius: 8px;
-            transition: color 0.2s;
-        }
-
-        .link-subtle:hover {
-            color: var(--primary);
-            background: rgba(0, 0, 0, 0.03);
-        }
-
-        /* Footer */
-        .app-footer {
-            text-align: center;
-            padding: 30px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
-            margin-top: auto;
-            background: white;
-        }
-
-        .app-footer a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .app-footer a:hover {
-            color: var(--gold);
-        }
-
-        /* Animations */
-        .fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-
-        .slide-up {
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Utility */
-        .hidden {
-            display: none !important;
-        }
-
-        .spinner {
-            width: 20px;
-            height: 20px;
-            border: 2.5px solid rgba(255, 255, 255, 0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* iPad & Responsive Tweaks */
-        @media (max-width: 900px) {
-            .login-grid {
-                grid-template-columns: 1fr;
-                /* Stack cards */
-                max-width: 500px;
-            }
-
-            .header-section {
-                padding: 40px 20px 20px;
-            }
-
-            .logo-img {
-                height: 70px;
-            }
-
-            .login-card {
-                padding: 32px 24px;
+            input {
+                min-height: 50px;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="top-accent"></div>
+    <!-- Top accent bar -->
+    <div class="grenat-bar"></div>
 
-    <header class="header-section slide-up">
-        <div class="logo-wrapper">
+    <!-- Header with Glassmorphism Logo -->
+    <header class="login-header fade-in">
+        <div class="logo-container">
             <img src="primeco_branding_2550x1440_logo_1-1500x847.jpg" alt="Prime&Co" class="logo-img">
         </div>
-        <div class="brand-subtitle">Plateforme de gestion <strong>Buvettes</strong></div>
+        <p class="logo-text">Plateforme de gestion des <span>buvettes</span></p>
     </header>
 
-    <div class="login-grid">
-        <!-- Card 1: Admin -->
-        <div class="login-card slide-up" style="animation-delay: 0.1s;">
+    <!-- Main Container -->
+    <div class="login-container">
+
+        <!-- Admin Card -->
+        <div class="login-card fade-in stagger-1">
             <div class="card-header">
-                <div class="icon-box admin-bg">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <div class="card-icon admin">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
                         <path
-                            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z" />
                     </svg>
                 </div>
-                <div class="card-titles">
-                    <h2>Admin</h2>
-                    <p>Chefs des opérations & logistique</p>
+                <div>
+                    <h2 class="card-title">Connexion Admin</h2>
+                    <p class="card-subtitle">Chefs des opérations & Logistique</p>
                 </div>
             </div>
 
             <form id="admin-form">
-                <div class="form-group">
+                <div class="field">
                     <label for="email">Email professionnel</label>
-                    <div class="input-group">
-                        <span class="input-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                                <path d="M22 6l-10 7L2 6" />
-                            </svg>
-                        </span>
-                        <input id="email" type="email" placeholder="nom@primeco.ch" required autocomplete="username">
+                    <div class="input-wrapper">
+                        <input id="email" type="email" placeholder="nom@primeco.ch" required autocomplete="email">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke-width="2">
+                            <rect width="20" height="16" x="2" y="4" rx="2" />
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                        </svg>
                     </div>
                 </div>
-
-                <div class="form-group">
+                <div class="field">
                     <label for="password">Mot de passe</label>
-                    <div class="input-group">
-                        <span class="input-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                            </svg>
-                        </span>
+                    <div class="input-wrapper">
                         <input id="password" type="password" placeholder="••••••••" required
                             autocomplete="current-password">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke-width="2">
+                            <rect width="18" height="11" x="3" y="11" rx="2" />
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
                     </div>
                 </div>
-
-                <button type="submit" class="btn-xl btn-primary-admin" style="margin-top: 10px;">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <span class="spinner" style="border-width: 2px; width: 18px; height: 18px; display: none;"></span>
                     <span class="btn-text">Se connecter</span>
-                    <div class="spinner hidden"></div>
                 </button>
             </form>
         </div>
 
-        <!-- Card 2: Responsable -->
-        <div class="login-card slide-up" style="animation-delay: 0.2s;">
+        <!-- Manager Card -->
+        <div class="login-card fade-in stagger-2">
             <div class="card-header">
-                <div class="icon-box manager-bg">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <div class="card-icon manager">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                         <circle cx="9" cy="7" r="4" />
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
                         <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                     </svg>
                 </div>
-                <div class="card-titles">
-                    <h2>Responsable</h2>
-                    <p>Accès buvette (Tablette)</p>
+                <div>
+                    <h2 class="card-title">Accès Responsable</h2>
+                    <p class="card-subtitle">Tablette buvette</p>
                 </div>
             </div>
 
-            <!-- Step 1: Intro -->
-            <div id="step-1" class="fade-in">
-                <div class="flow-badge">
-                    <span class="pulse-dot"></span>
+            <!-- Step 1 -->
+            <div id="step-1">
+                <div class="status-badge">
+                    <span class="dot"></span>
                     Accès rapide sans mot de passe
                 </div>
-                <p style="margin-bottom: 30px; color: var(--text-muted); line-height: 1.6;">
-                    Connectez-vous à votre buvette pour gérer le staff, l'inventaire et les checklists en temps réel.
-                </p>
-                <button id="btn-responsable" class="btn-xl btn-primary-manager">
-                    <span>Commencer</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
+                <button id="btn-responsable" class="btn btn-secondary" style="width: 100%;">
+                    Je suis responsable de buvette
                 </button>
             </div>
 
-            <!-- Step 2: Event -->
+            <!-- Step 2: Event Selection -->
             <div id="step-2" class="hidden fade-in">
-                <div class="form-group">
-                    <label for="event-select">Événement en cours</label>
-                    <div class="input-group">
-                        <span class="input-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                                <line x1="16" y1="2" x2="16" y2="6" />
-                                <line x1="8" y1="2" x2="8" y2="6" />
-                                <line x1="3" y1="10" x2="21" y2="10" />
-                            </svg>
-                        </span>
+                <div class="field">
+                    <label for="event-select">Sélectionnez l'événement</label>
+                    <div class="input-wrapper">
                         <select id="event-select">
                             <option value="">Chargement...</option>
                         </select>
                     </div>
                 </div>
-                <button id="btn-select-event" class="btn-xl btn-primary-manager" disabled>
+                <button id="btn-select-event" class="btn btn-secondary" style="width: 100%;" disabled>
                     Continuer
                 </button>
-                <div class="back-nav">
-                    <a href="#" id="back-step-1" class="link-subtle">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M19 12H5M12 19l-7-7 7-7" />
+                <div class="text-center mt-2">
+                    <a href="#" id="back-step-1" class="btn-ghost" style="font-size: 0.9rem;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                            <path d="m15 18-6-6 6-6" />
                         </svg>
                         Retour
                     </a>
                 </div>
             </div>
 
-            <!-- Step 3: Buvette -->
+            <!-- Step 3: Buvette Selection -->
             <div id="step-3" class="hidden fade-in">
-                <div class="context-card">
-                    <div class="context-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <circle cx="12" cy="12" r="10" />
-                            <polyline points="12 6 12 12 16 14" />
-                        </svg>
-                    </div>
-                    <div class="context-text" id="selected-event-name">Événement</div>
+                <div
+                    style="margin-bottom: 20px; padding: 12px 16px; background: rgba(96, 29, 43, 0.04); border: 1px solid rgba(96, 29, 43, 0.1); border-radius: 12px; font-weight: 500; color: var(--primary); display: flex; align-items: center; gap: 10px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        style="width: 18px; height: 18px;">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                    <span id="selected-event-name"></span>
                 </div>
 
-                <div class="form-group">
-                    <label for="buvette-select">Votre Buvette</label>
-                    <div class="input-group">
-                        <span class="input-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                                <polyline points="9 22 9 12 15 12 15 22" />
-                            </svg>
-                        </span>
+                <div class="field">
+                    <label for="buvette-select">Choisissez votre buvette</label>
+                    <div class="input-wrapper">
                         <select id="buvette-select">
                             <option value="">Chargement...</option>
                         </select>
                     </div>
                 </div>
 
-                <button id="btn-enter-buvette" class="btn-xl btn-primary-manager" disabled>
+                <button id="btn-enter-buvette" class="btn btn-secondary" style="width: 100%;" disabled>
                     Entrer dans la buvette
                 </button>
 
-                <div class="back-nav">
-                    <a href="#" id="back-step-2" class="link-subtle">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M19 12H5M12 19l-7-7 7-7" />
+                <div class="text-center mt-2">
+                    <a href="#" id="back-step-2" class="btn-ghost" style="font-size: 0.9rem;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                            <path d="m15 18-6-6 6-6" />
                         </svg>
                         Changer d'événement
                     </a>
@@ -653,45 +188,30 @@
         </div>
     </div>
 
-    <footer class="app-footer">
-        <p>Développé avec ❤️ par <a href="https://alexvavasseur.ch" target="_blank">Alexandre Vavasseur</a></p>
+    <!-- Footer -->
+    <footer class="login-footer">
+        <p>Développé par <a href="https://alexvavasseur.ch" target="_blank">Alexandre Vavasseur</a></p>
     </footer>
 
     <script src="config.js"></script>
     <script src="shared.js"></script>
     <script>
-        // Toast notification
+        // Logic Reuse (Keep the same JS logic)
+        const API_BASE = (typeof API_URL !== 'undefined') ? API_URL : '/api';
+
         function showToast(message, type = 'error') {
             const existing = document.querySelector('.toast');
             if (existing) existing.remove();
-
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            toast.style.cssText = `
-                position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px);
-                background: ${type === 'success' ? '#10B981' : '#EF4444'};
-                color: white; padding: 12px 24px; border-radius: 50px;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.15); opacity: 0; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-                font-weight: 500; z-index: 1000; display: flex; align-items: center; gap: 10px;
-            `;
             toast.innerHTML = `<span>${message}</span>`;
             document.body.appendChild(toast);
-            
-            // Animate in
-            requestAnimationFrame(() => {
-                toast.style.opacity = '1';
-                toast.style.transform = 'translateX(-50%) translateY(0)';
-            });
-
+            setTimeout(() => toast.classList.add('show'), 10);
             setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateX(-50%) translateY(20px)';
+                toast.classList.remove('show');
                 setTimeout(() => toast.remove(), 300);
             }, 4000);
         }
-
-        // Logic Reuse
-        const API_BASE = (typeof API_URL !== 'undefined') ? API_URL : '/api';
 
         // --- Admin Flow ---
         document.getElementById("admin-form").addEventListener("submit", async (e) => {
@@ -704,8 +224,8 @@
 
             try {
                 btn.disabled = true;
-                if(spinner) spinner.classList.remove('hidden');
-                if(btnText) btnText.classList.add('hidden');
+                if (spinner) spinner.style.display = 'inline-block';
+                if (btnText) btnText.style.display = 'none';
 
                 const res = await fetch(`${API_BASE}/auth/login`, {
                     method: "POST",
@@ -714,7 +234,6 @@
                 });
 
                 const data = await res.json();
-
                 if (!res.ok) throw new Error(data.message || "Erreur de connexion");
 
                 localStorage.setItem("access_token", data.access_token);
@@ -729,13 +248,12 @@
                 } else {
                     window.location.href = "timesheets.html?role=rb";
                 }
-
             } catch (err) {
                 console.error(err);
                 showToast(err.message);
                 btn.disabled = false;
-                if(spinner) spinner.classList.add('hidden');
-                if(btnText) btnText.classList.remove('hidden');
+                if (spinner) spinner.style.display = 'none';
+                if (btnText) btnText.style.display = 'inline';
             }
         });
 
@@ -747,29 +265,23 @@
         const buvetteSelect = document.getElementById("buvette-select");
         const btnSelectEvent = document.getElementById("btn-select-event");
         const btnEnter = document.getElementById("btn-enter-buvette");
-
         let selectedEventId = null;
         let selectedEventName = null;
 
         document.getElementById("btn-responsable").addEventListener("click", async () => {
             step1.classList.add("hidden");
             step2.classList.remove("hidden");
-            
             try {
                 eventSelect.innerHTML = '<option value="">Chargement...</option>';
                 const res = await fetch(`${API_BASE}/events`);
-                if (!res.ok) throw new Error("Erreur chargement");
+                if (!res.ok) throw new Error("Erreur");
                 const events = await res.json();
-
-                const activeEvents = events
-                    .filter(e => e.buvettes && e.buvettes.length > 0)
-                    .sort((a, b) => new Date(a.date) - new Date(b.date));
+                const activeEvents = events.filter(e => e.buvettes && e.buvettes.length > 0).sort((a, b) => new Date(a.date) - new Date(b.date));
 
                 if (activeEvents.length === 0) {
                     eventSelect.innerHTML = '<option value="">Aucun événement actif</option>';
                     return;
                 }
-
                 eventSelect.innerHTML = '<option value="">Sélectionnez un événement</option>';
                 activeEvents.forEach(e => {
                     const opt = document.createElement("option");
@@ -780,21 +292,16 @@
                     eventSelect.appendChild(opt);
                 });
             } catch (err) {
-                console.error(err);
                 eventSelect.innerHTML = '<option value="">Erreur de chargement</option>';
             }
         });
 
-        eventSelect.addEventListener("change", () => {
-            btnSelectEvent.disabled = !eventSelect.value;
-        });
+        eventSelect.addEventListener("change", () => btnSelectEvent.disabled = !eventSelect.value);
 
         btnSelectEvent.addEventListener("click", async () => {
             selectedEventId = eventSelect.value;
-            const selectedOption = eventSelect.options[eventSelect.selectedIndex];
-            selectedEventName = selectedOption.dataset.name;
+            selectedEventName = eventSelect.options[eventSelect.selectedIndex].dataset.name;
             if (!selectedEventId) return;
-
             step2.classList.add("hidden");
             step3.classList.remove("hidden");
             document.getElementById("selected-event-name").textContent = selectedEventName;
@@ -802,14 +309,12 @@
             try {
                 buvetteSelect.innerHTML = '<option value="">Chargement...</option>';
                 const res = await fetch(`${API_BASE}/events/${selectedEventId}/buvettes`);
-                if (!res.ok) throw new Error("Erreur chargement");
+                if (!res.ok) throw new Error("Erreur");
                 const eventBuvettes = await res.json();
-
                 if (eventBuvettes.length === 0) {
                     buvetteSelect.innerHTML = '<option value="">Aucune buvette</option>';
                     return;
                 }
-
                 buvetteSelect.innerHTML = '<option value="">Sélectionnez votre buvette</option>';
                 eventBuvettes.forEach(eb => {
                     const b = eb.buvette || eb;
@@ -823,22 +328,9 @@
             }
         });
 
-        buvetteSelect.addEventListener("change", () => {
-            btnEnter.disabled = !buvetteSelect.value;
-        });
-
-        document.getElementById("back-step-1").addEventListener("click", (e) => {
-            e.preventDefault();
-            step2.classList.add("hidden");
-            step1.classList.remove("hidden");
-        });
-
-        document.getElementById("back-step-2").addEventListener("click", (e) => {
-            e.preventDefault();
-            step3.classList.add("hidden");
-            step2.classList.remove("hidden");
-            btnEnter.disabled = true;
-        });
+        buvetteSelect.addEventListener("change", () => btnEnter.disabled = !buvetteSelect.value);
+        document.getElementById("back-step-1").addEventListener("click", (e) => { e.preventDefault(); step2.classList.add("hidden"); step1.classList.remove("hidden"); });
+        document.getElementById("back-step-2").addEventListener("click", (e) => { e.preventDefault(); step3.classList.add("hidden"); step2.classList.remove("hidden"); btnEnter.disabled = true; });
 
         btnEnter.addEventListener("click", () => {
             const buvetteId = buvetteSelect.value;
@@ -852,7 +344,6 @@
                 window.location.href = "responsable.html";
             }
         });
-
         localStorage.removeItem("mode");
     </script>
 </body>
