@@ -27,6 +27,10 @@ app.get("/", (_req, res) => {
   res.redirect("/index.html");
 });
 
+app.get("/ping", (_req, res) => {
+  res.send("pong-primeco");
+});
+
 // API routes
 app.use("/api", routes);
 
