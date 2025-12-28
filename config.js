@@ -25,7 +25,7 @@ if (typeof window !== 'undefined') {
     // Si on n'est pas en localhost, on est en production
     if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
         CONFIG.IS_PRODUCTION = true;
-        CONFIG.API_URL = "https://primeco-app.onrender.com/api";
+        CONFIG.API_URL = "https://api.alexvavasseur.ch/api";
     }
 
     window.CONFIG = CONFIG;
