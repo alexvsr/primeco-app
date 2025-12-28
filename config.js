@@ -25,8 +25,7 @@ if (typeof window !== 'undefined') {
     // Si on n'est pas en localhost, on est en production
     if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
         CONFIG.IS_PRODUCTION = true;
-        // Décommentez et modifiez cette ligne avec votre URL Render une fois déployé :
-        // CONFIG.API_URL = "https://primeco-api.onrender.com/api";
+        CONFIG.API_URL = "https://primeco-app.onrender.com/api";
     }
 
     window.CONFIG = CONFIG;

@@ -58,11 +58,11 @@ Ce guide explique comment déployer l'application Prime&Co Ops avec une architec
    - **Runtime** : Node
    - **Build Command** : 
      ```bash
-     npm install && npx prisma generate && npx prisma migrate deploy
+     npm install && npx prisma generate && npm run build
      ```
    - **Start Command** : 
      ```bash
-     npm start
+     npx prisma migrate deploy && npm start
      ```
    - **Plan** : Free
 
