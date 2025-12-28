@@ -533,8 +533,65 @@ select {
 
 /* Grenat accent bar */
 .grenat-bar {
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 50%, var(--primary) 100%);
+    box-shadow: 0 2px 8px rgba(201, 162, 39, 0.3);
+}
+
+/* Login page body */
+.login-body {
+    background: radial-gradient(ellipse at top right, #f8f1f2 0%, #f3f4f6 100%);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Full-width button */
+.btn-full {
+    width: 100%;
+}
+
+/* Event context badge (step 3) */
+.event-context-badge {
+    margin-bottom: 20px;
+    padding: 14px 18px;
+    background: rgba(96, 29, 43, 0.04);
+    border: 1px solid rgba(96, 29, 43, 0.1);
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.event-context-badge svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* Back link */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    padding: 10px;
+    border-radius: var(--radius-xs);
+    transition: all 0.2s ease;
+}
+
+.back-link:hover {
+    color: var(--primary);
+    background: var(--primary-alpha);
+}
+
+.back-link svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
 }
 
 /* Utilities */

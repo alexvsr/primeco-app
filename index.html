@@ -7,40 +7,19 @@
     <title>Connexion – Prime&Co</title>
     <meta name="description" content="Plateforme de gestion des buvettes Prime&Co">
 
-    <!-- Fonts: Inter for pro look -->
+    <!-- Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="shared.css">
-
-    <style>
-        /* Page-specific overrides */
-        body {
-            background: radial-gradient(circle at top right, #f8f1f2 0%, #f3f4f6 100%);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* Touch friendly overrides */
-        @media (pointer: coarse) {
-            .btn {
-                min-height: 56px;
-            }
-
-            input {
-                min-height: 50px;
-            }
-        }
-    </style>
 </head>
 
-<body>
+<body class="login-body">
     <!-- Top accent bar -->
     <div class="grenat-bar"></div>
 
-    <!-- Header with Glassmorphism Logo -->
+    <!-- Header with Logo -->
     <header class="login-header fade-in">
         <div class="logo-container">
             <img src="primeco_branding_2550x1440_logo_1-1500x847.jpg" alt="Prime&Co" class="logo-img">
@@ -90,8 +69,8 @@
                         </svg>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">
-                    <span class="spinner" style="border-width: 2px; width: 18px; height: 18px; display: none;"></span>
+                <button type="submit" class="btn btn-primary btn-full">
+                    <span class="spinner hidden"></span>
                     <span class="btn-text">Se connecter</span>
                 </button>
             </form>
@@ -121,7 +100,7 @@
                     <span class="dot"></span>
                     Accès rapide sans mot de passe
                 </div>
-                <button id="btn-responsable" class="btn btn-secondary" style="width: 100%;">
+                <button id="btn-responsable" class="btn btn-secondary btn-full">
                     Je suis responsable de buvette
                 </button>
             </div>
@@ -136,11 +115,11 @@
                         </select>
                     </div>
                 </div>
-                <button id="btn-select-event" class="btn btn-secondary" style="width: 100%;" disabled>
+                <button id="btn-select-event" class="btn btn-secondary btn-full" disabled>
                     Continuer
                 </button>
                 <div class="text-center mt-2">
-                    <a href="#" id="back-step-1" class="btn-ghost" style="font-size: 0.9rem;">
+                    <a href="#" id="back-step-1" class="back-link">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
                             <path d="m15 18-6-6 6-6" />
                         </svg>
@@ -151,10 +130,8 @@
 
             <!-- Step 3: Buvette Selection -->
             <div id="step-3" class="hidden fade-in">
-                <div
-                    style="margin-bottom: 20px; padding: 12px 16px; background: rgba(96, 29, 43, 0.04); border: 1px solid rgba(96, 29, 43, 0.1); border-radius: 12px; font-weight: 500; color: var(--primary); display: flex; align-items: center; gap: 10px;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        style="width: 18px; height: 18px;">
+                <div class="event-context-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                         <line x1="16" y1="2" x2="16" y2="6" />
                         <line x1="8" y1="2" x2="8" y2="6" />
@@ -172,12 +149,12 @@
                     </div>
                 </div>
 
-                <button id="btn-enter-buvette" class="btn btn-secondary" style="width: 100%;" disabled>
+                <button id="btn-enter-buvette" class="btn btn-secondary btn-full" disabled>
                     Entrer dans la buvette
                 </button>
 
                 <div class="text-center mt-2">
-                    <a href="#" id="back-step-2" class="btn-ghost" style="font-size: 0.9rem;">
+                    <a href="#" id="back-step-2" class="back-link">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
                             <path d="m15 18-6-6 6-6" />
                         </svg>
@@ -196,7 +173,6 @@
     <script src="config.js"></script>
     <script src="shared.js"></script>
     <script>
-        // Logic Reuse (Keep the same JS logic)
         const API_BASE = (typeof API_URL !== 'undefined') ? API_URL : '/api';
 
         function showToast(message, type = 'error') {
@@ -224,8 +200,8 @@
 
             try {
                 btn.disabled = true;
-                if (spinner) spinner.style.display = 'inline-block';
-                if (btnText) btnText.style.display = 'none';
+                spinner?.classList.remove('hidden');
+                btnText?.classList.add('hidden');
 
                 const res = await fetch(`${API_BASE}/auth/login`, {
                     method: "POST",
@@ -252,8 +228,8 @@
                 console.error(err);
                 showToast(err.message);
                 btn.disabled = false;
-                if (spinner) spinner.style.display = 'none';
-                if (btnText) btnText.style.display = 'inline';
+                spinner?.classList.add('hidden');
+                btnText?.classList.remove('hidden');
             }
         });
 
@@ -286,13 +262,14 @@
                 activeEvents.forEach(e => {
                     const opt = document.createElement("option");
                     opt.value = e.id;
-                    const date = new Date(e.date).toLocaleDateString('fr-CH', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit' });
+                    const date = new Date(e.date).toLocaleDateString('fr-CH', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
                     opt.textContent = `${e.name} (${date})`;
                     opt.dataset.name = e.name;
                     eventSelect.appendChild(opt);
                 });
             } catch (err) {
                 eventSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+                showToast("Impossible de charger les événements");
             }
         });
 
@@ -325,12 +302,24 @@
                 });
             } catch (err) {
                 buvetteSelect.innerHTML = '<option value="">Erreur</option>';
+                showToast("Impossible de charger les buvettes");
             }
         });
 
         buvetteSelect.addEventListener("change", () => btnEnter.disabled = !buvetteSelect.value);
-        document.getElementById("back-step-1").addEventListener("click", (e) => { e.preventDefault(); step2.classList.add("hidden"); step1.classList.remove("hidden"); });
-        document.getElementById("back-step-2").addEventListener("click", (e) => { e.preventDefault(); step3.classList.add("hidden"); step2.classList.remove("hidden"); btnEnter.disabled = true; });
+
+        document.getElementById("back-step-1").addEventListener("click", (e) => {
+            e.preventDefault();
+            step2.classList.add("hidden");
+            step1.classList.remove("hidden");
+        });
+
+        document.getElementById("back-step-2").addEventListener("click", (e) => {
+            e.preventDefault();
+            step3.classList.add("hidden");
+            step2.classList.remove("hidden");
+            btnEnter.disabled = true;
+        });
 
         btnEnter.addEventListener("click", () => {
             const buvetteId = buvetteSelect.value;
@@ -344,7 +333,11 @@
                 window.location.href = "responsable.html";
             }
         });
+
+        // Clear previous session context
         localStorage.removeItem("mode");
+        localStorage.removeItem("event_id");
+        localStorage.removeItem("buvette_id");
     </script>
 </body>
 
