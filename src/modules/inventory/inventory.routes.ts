@@ -59,47 +59,59 @@ router.post(
         })),
       });
 
-      // If FINAL, compute deltas using INITIAL snapshot
+      // If FINAL, compute deltas using defaultStock as source of truth
       if (type === "FINAL") {
+        // Fetch default stocks for this buvette
+        const buvetteProducts = await tx.buvetteProduct.findMany({
+          where: { buvetteId }
+        });
+
+        // Optional: still fetch initial snapshot for fallback/legacy, though we prioritize defaultStock
         const initial = await tx.inventorySnapshot.findFirst({
           where: { eventId, buvetteId, type: "INITIAL" },
           include: { items: true },
         });
-        if (initial) {
-          for (const finalItem of items) {
-            const initialItem = initial.items.find((it) => it.productId === finalItem.product_id);
-            const { theoreticalSales, delta, restockQuantity } = computeDelta(
-              initialItem?.quantity,
-              finalItem.quantity,
-              finalItem.declared_sales
-            );
-            await tx.inventoryDelta.upsert({
-              where: {
-                eventId_buvetteId_productId: {
-                  eventId,
-                  buvetteId,
-                  productId: finalItem.product_id,
-                },
-              },
-              update: {
-                initialQty: initialItem?.quantity ?? null,
-                finalQty: finalItem.quantity,
-                theoreticalSales,
-                delta,
-                restockQuantity,
-              },
-              create: {
+
+        for (const finalItem of items) {
+          // Find config for this product
+          const bp = buvetteProducts.find(p => p.productId === finalItem.product_id);
+          const initialItem = initial?.items.find((it) => it.productId === finalItem.product_id);
+
+          // PRIORITY: defaultStock > initialSnapshot > 0
+          const initialQty = bp?.defaultStock ?? (initialItem?.quantity ?? 0);
+
+          const { theoreticalSales, delta, restockQuantity } = computeDelta(
+            initialQty,
+            finalItem.quantity,
+            finalItem.declared_sales
+          );
+
+          await tx.inventoryDelta.upsert({
+            where: {
+              eventId_buvetteId_productId: {
                 eventId,
                 buvetteId,
                 productId: finalItem.product_id,
-                initialQty: initialItem?.quantity ?? null,
-                finalQty: finalItem.quantity,
-                theoreticalSales,
-                delta,
-                restockQuantity,
               },
-            });
-          }
+            },
+            update: {
+              initialQty: initialQty,
+              finalQty: finalItem.quantity,
+              theoreticalSales,
+              delta,
+              restockQuantity,
+            },
+            create: {
+              eventId,
+              buvetteId,
+              productId: finalItem.product_id,
+              initialQty: initialQty,
+              finalQty: finalItem.quantity,
+              theoreticalSales,
+              delta,
+              restockQuantity,
+            },
+          });
         }
       }
 
@@ -120,12 +132,59 @@ router.get(
   async (req, res) => {
     const eventId = Number(req.params.eventId);
     const buvetteId = Number(req.params.buvetteId);
-    const type = req.query.type as string | undefined;
+
+    // 1. Get assigned products (reference list)
+    const assigned = await prisma.buvetteProduct.findMany({
+      where: { buvetteId },
+      include: { product: true },
+      orderBy: { displayOrder: 'asc' }
+    });
+
+    // 2. Get Snapshots
     const snapshots = await prisma.inventorySnapshot.findMany({
-      where: { eventId, buvetteId, type },
+      where: { eventId, buvetteId },
       include: { items: true },
     });
-    return res.json(snapshots);
+
+    const finalSnap = snapshots.find(s => s.type === "FINAL");
+
+    // 3. Merge data
+    const products = assigned.map(ap => {
+      const p = ap.product;
+      const finalItem = finalSnap?.items.find(i => i.productId === p.id);
+
+      // Force Initial Qty = Default Stock (Locked)
+      const initialQty = ap.defaultStock ?? 0;
+      const finalQty = finalItem?.quantity ?? null;
+
+      // Calculate restock
+      let restockQty: number | null = null;
+      if (finalQty !== null) {
+        restockQty = Math.max(0, initialQty - finalQty);
+      }
+
+      const shortageQty = finalItem?.loss ?? 0; // mapping 'loss' to shortage for now if that's the logic, or null
+      // Actually, shortage is usually computed or stored. In the snapshot schema I see 'loss'.
+      // But in the frontend it's 'shortageQty'.
+      // Let's assume for now we don't have persisted shortage separate from loss in the snapshot items?
+      // Wait, the itemSchema has 'loss'. In frontend 'shortage'.
+
+      return {
+        productId: p.id,
+        name: p.name,
+        category: p.category,
+        unit: p.unit,
+        initialQty: initialQty, // LOCKED
+        finalQty: finalQty,
+        restockQty: restockQty,
+        isRestocked: !!finalItem,
+        hasShortage: (finalItem?.loss ?? 0) > 0,
+        shortageQty: finalItem?.loss ?? 0,
+        defaultStock: ap.defaultStock
+      };
+    });
+
+    return res.json({ products });
   }
 );
 
