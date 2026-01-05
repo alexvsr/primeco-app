@@ -12,6 +12,7 @@ const app = express();
 app.use(cors({
   origin: [
     "https://prime-co.alexvavasseur.ch",
+    "https://api.alexvavasseur.ch",
     "http://localhost:3000",
     "http://localhost:5500"
   ],

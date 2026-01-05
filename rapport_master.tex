@@ -1,0 +1,1539 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Rapport de Master
+% Système de gestion numérique des buvettes pour Prime&Co
+% Alexandre Vavasseur
+% Université de Genève - CUI
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,a4paper,twoside,openany]{book}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PACKAGES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Encodage et langue
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+
+% Mise en page
+\usepackage[top=2.5cm, bottom=2.5cm, left=3cm, right=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% Polices
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% Graphiques et figures
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% Tableaux
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+
+% Couleurs et liens
+\usepackage[table,xcdraw]{xcolor}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    citecolor=green!50!black,
+    urlcolor=blue!70!black,
+    pdftitle={Système de gestion numérique des buvettes pour Prime\&Co},
+    pdfauthor={Alexandre Vavasseur}
+}
+
+% Bibliographie
+\usepackage[style=ieee, backend=biber, sorting=nyt]{biblatex}
+% \addbibresource{references.bib}
+
+% En-têtes et pieds de page
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\nouppercase{\leftmark}}
+\fancyhead[LO]{\nouppercase{\rightmark}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Code source
+\usepackage{listings}
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red!60!black},
+    showstringspaces=false
+}
+
+% Acronymes
+\usepackage[acronym, toc]{glossaries}
+\makeglossaries
+
+% Divers
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage{appendix}
+\usepackage{pdfpages}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DÉFINITION DES ACRONYMES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newacronym{api}{API}{Application Programming Interface}
+\newacronym{bpmn}{BPMN}{Business Process Model and Notation}
+\newacronym{ui}{UI}{User Interface}
+\newacronym{ux}{UX}{User Experience}
+\newacronym{uml}{UML}{Unified Modeling Language}
+\newacronym{crud}{CRUD}{Create, Read, Update, Delete}
+\newacronym{sql}{SQL}{Structured Query Language}
+\newacronym{css}{CSS}{Cascading Style Sheets}
+\newacronym{html}{HTML}{HyperText Markup Language}
+\newacronym{json}{JSON}{JavaScript Object Notation}
+\newacronym{rest}{REST}{Representational State Transfer}
+\newacronym{si}{SI}{Système d'Information}
+\newacronym{bpm}{BPM}{Business Process Management}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% COMMANDES PERSONNALISÉES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\primeco}{Prime\&Co}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DÉBUT DU DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PAGE DE GARDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+    \centering
+    
+    % Logo de l'université
+    \vspace*{1cm}
+    % \includegraphics[width=0.4\textwidth]{images/logo_unige.png}
+    \textbf{\Large UNIVERSITÉ DE GENÈVE}\\[0.3cm]
+    \textbf{\large Centre Universitaire d'Informatique (CUI)}
+    
+    \vspace{2cm}
+    
+    {\Large \textbf{Rapport de Master}}\\[0.5cm]
+    {\large Master en Systèmes et Services Numériques}
+    
+    \vspace{2cm}
+    
+    \rule{\textwidth}{1.5pt}\\[0.5cm]
+    {\Huge \textbf{Système de gestion numérique des buvettes pour Prime\&Co}}\\[0.5cm]
+    \rule{\textwidth}{1.5pt}
+    
+    \vspace{2cm}
+    
+    {\Large \textbf{Alexandre Vavasseur}}
+    
+    \vspace{2cm}
+    
+    \begin{tabular}{rl}
+        \textbf{Entreprise partenaire :} & Prime\&Co \\[0.3cm]
+        \textbf{Superviseur académique :} & Prof. Jolita Ralyté \\[0.3cm]
+        % \textbf{Superviseur entreprise :} & [Nom du superviseur] \\
+    \end{tabular}
+    
+    \vfill
+    
+    {\large Janvier 2026}
+    
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PAGES PRÉLIMINAIRES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frontmatter
+\pagestyle{plain}
+
+%------------------------
+% Remerciements
+%------------------------
+\chapter*{Remerciements}
+\addcontentsline{toc}{chapter}{Remerciements}
+
+% TODO: Rédiger les remerciements
+
+Je tiens à remercier...
+
+\newpage
+
+%------------------------
+% Résumé / Abstract
+%------------------------
+\chapter*{Résumé}
+\addcontentsline{toc}{chapter}{Résumé}
+
+% TODO: Rédiger le résumé (200-300 mots)
+% Contexte, objectif, approche, résultats et bénéfices
+
+\textbf{Contexte :} [À compléter]
+
+\textbf{Objectif :} [À compléter]
+
+\textbf{Approche :} [À compléter]
+
+\textbf{Résultats :} [À compléter]
+
+\textbf{Bénéfices :} [À compléter]
+
+\vspace{1cm}
+
+\textbf{Mots-clés :} Système d'information, transformation numérique, gestion des buvettes, événementiel sportif, BPMN, UML
+
+\newpage
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+% TODO: Version anglaise du résumé
+
+\textbf{Keywords:} Information system, digital transformation, concession stand management, sports events, BPMN, UML
+
+\newpage
+
+%------------------------
+% Table des matières
+%------------------------
+\tableofcontents
+
+\newpage
+
+%------------------------
+% Liste des figures
+%------------------------
+\listoffigures
+\addcontentsline{toc}{chapter}{Liste des figures}
+
+\newpage
+
+%------------------------
+% Liste des tableaux
+%------------------------
+\listoftables
+\addcontentsline{toc}{chapter}{Liste des tableaux}
+
+\newpage
+
+%------------------------
+% Liste des acronymes
+%------------------------
+\printglossary[type=\acronymtype, title=Liste des acronymes]
+\addcontentsline{toc}{chapter}{Liste des acronymes}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CORPS DU RAPPORT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mainmatter
+\pagestyle{fancy}
+
+%========================================================================
+% CHAPITRE 1 : INTRODUCTION
+%========================================================================
+\chapter{Introduction}
+
+% Introduction générale du chapitre
+
+\section{Contexte général du projet}
+
+Ce projet de Master s'inscrit dans le cadre d'une collaboration entre l'Université de Genève et l'entreprise \primeco{}, société spécialisée dans la gestion opérationnelle de buvettes lors d'événements sportifs. Cette section présente le contexte organisationnel et opérationnel dans lequel s'inscrit le développement du système de gestion numérique.
+
+\subsection{Présentation de Prime\&Co}
+
+\primeco{} est une entreprise genevoise fondée en 2018, spécialisée dans la prestation de services événementiels. Son activité principale consiste à assurer la gestion complète des points de restauration (buvettes) lors d'événements sportifs de grande envergure dans le canton de Genève.
+
+L'entreprise opère selon un modèle de concession, dans lequel elle prend en charge l'ensemble de la chaîne opérationnelle : approvisionnement en marchandises, recrutement et gestion du personnel temporaire, coordination logistique, et suivi des ventes. Ce positionnement la distingue d'un simple fournisseur de personnel, puisqu'elle assume la responsabilité globale de la qualité de service délivrée aux spectateurs.
+
+\primeco{} emploie une équipe permanente très restreinte, composée principalement :
+\begin{itemize}[nosep]
+    \item d'un \textbf{chef des opérations}, responsable de la planification des événements et de la supervision générale ;
+    \item de \textbf{logisticiens}, chargés de l'approvisionnement et de la préparation des buvettes avant les événements.
+\end{itemize}
+
+Le personnel de terrain est quant à lui fourni par l'agence de placement \textbf{Hotelis}, partenaire historique de l'entreprise. Parmi ces collaborateurs temporaires, on distingue :
+\begin{itemize}[nosep]
+    \item les \textbf{responsables de buvette} : extras ayant démontré leurs compétences et gagné la confiance de \primeco{}, ils supervisent un point de vente lors des événements ;
+    \item les \textbf{extras} : personnel temporaire affecté au service direct des clients.
+\end{itemize}
+
+\subsection{Présentation des buvettes du Stade et de la Patinoire}
+
+\primeco{} assure actuellement la gestion des buvettes de deux infrastructures sportives majeures de l'agglomération genevoise :
+
+\subsubsection{Le Stade de Genève}
+
+Le Stade de Genève, situé dans le quartier de la Praille (Lancy), est une enceinte multifonctionnelle d'une capacité de 30'000 places. Il accueille principalement les matchs du Servette FC (Super League de football) ainsi que des événements ponctuels (concerts, matchs internationaux).
+
+Le stade dispose de \textbf{plusieurs buvettes} réparties sur différents niveaux :
+\begin{itemize}[nosep]
+    \item les buvettes de la tribune principale, accessibles aux détenteurs de billets standard ;
+    \item les buvettes VIP et loges, proposant une offre de restauration élargie ;
+    \item les points de vente mobiles, déployés lors d'événements à forte affluence.
+\end{itemize}
+
+Chaque journée de match mobilise entre 20 et 40 collaborateurs temporaires, selon la jauge attendue et le nombre de buvettes ouvertes.
+
+\subsubsection{La Patinoire des Vernets}
+
+La Patinoire des Vernets, située au cœur de Genève, est le domicile du Genève-Servette Hockey Club (GSHC), évoluant en National League (première division suisse de hockey sur glace). D'une capacité d'environ 7'000 places, elle accueille une trentaine de matchs par saison, ainsi que des compétitions de patinage artistique et d'autres événements.
+
+Les buvettes de la patinoire présentent des caractéristiques distinctes :
+\begin{itemize}[nosep]
+    \item espace physique plus contraint qu'au stade ;
+    \item rotations de stock plus fréquentes en raison de l'affluence concentrée sur les entre-périodes ;
+    \item clientèle particulièrement fidèle, avec des habitudes de consommation établies.
+\end{itemize}
+
+\subsubsection{Spécificités communes}
+
+Malgré leurs différences, les buvettes des deux sites partagent plusieurs caractéristiques opérationnelles :
+\begin{itemize}[nosep]
+    \item une activité fortement concentrée dans le temps (pics lors des mi-temps ou des entre-deux) ;
+    \item un personnel majoritairement temporaire, renouvelé fréquemment ;
+    \item des contraintes réglementaires strictes en matière d'hygiène et de traçabilité ;
+    \item une exigence de rapidité de service pour éviter les files d'attente.
+\end{itemize}
+
+\subsection{Description du fonctionnement actuel}
+
+Avant la mise en place du système développé dans le cadre de ce projet, la gestion des buvettes reposait intégralement sur des processus manuels et des supports papier. Cette section décrit les pratiques en vigueur au démarrage du projet.
+
+\subsubsection{Préparation d'un événement}
+
+En amont de chaque match, le chef des opérations effectue les tâches suivantes :
+\begin{enumerate}[nosep]
+    \item \textbf{Planification du personnel} : identification des buvettes à ouvrir, estimation des besoins en effectifs, et transmission des demandes à l'agence Hotelis ;
+    \item \textbf{Préparation des documents} : impression des feuilles d'inventaire, des feuilles horaires nominatives, et des éventuelles checklists de contrôle ;
+    \item \textbf{Coordination logistique} : communication des besoins d'approvisionnement aux logisticiens.
+\end{enumerate}
+
+\subsubsection{Déroulement d'un événement}
+
+Le jour de l'événement, les opérations se déroulent selon le schéma suivant :
+\begin{enumerate}[nosep]
+    \item \textbf{Préparation des buvettes} : les logisticiens livrent les marchandises et préparent les postes de vente ;
+    \item \textbf{Inventaire initial} : le responsable de buvette compte les produits disponibles et les consigne sur la feuille d'inventaire ;
+    \item \textbf{Accueil du personnel} : les extras arrivent et signent leur présence sur la feuille horaire ;
+    \item \textbf{Service} : vente des produits pendant l'événement, avec gestion des réapprovisionnements si nécessaire ;
+    \item \textbf{Clôture} : inventaire final, saisie des heures de fin de service, signatures des extras.
+\end{enumerate}
+
+\subsubsection{Post-événement}
+
+Après chaque match, le chef des opérations doit :
+\begin{enumerate}[nosep]
+    \item \textbf{Collecter les documents} : récupérer l'ensemble des feuilles papier auprès des responsables de buvette ;
+    \item \textbf{Saisir les données} : reporter manuellement les informations dans des fichiers Excel (inventaires, heures travaillées) ;
+    \item \textbf{Transmettre les heures} : envoyer les données de paie à Hotelis pour le traitement des salaires ;
+    \item \textbf{Analyser les écarts} : identifier les anomalies d'inventaire et investiguer les causes potentielles.
+\end{enumerate}
+
+Ce fonctionnement, bien qu'opérationnel, génère de nombreuses inefficiences qui seront détaillées dans la section suivante.
+
+\section{Motivation et objectifs}
+
+\subsection{Problématique}
+
+La gestion opérationnelle des buvettes lors d'événements sportifs repose actuellement sur des processus manuels générant de nombreuses inefficiences : documents papier sujets à perte ou erreur, double saisie des données, absence de visibilité en temps réel, et temps administratif considérable en post-événement.
+
+Au-delà de ces problèmes opérationnels, \primeco{} fait face à un défi stratégique : \textbf{optimiser la gestion des stocks} pour réduire le capital immobilisé tout en évitant les ruptures d'approvisionnement. Cette optimisation nécessite des outils d'analyse et de prévision actuellement inexistants.
+
+\subsection{Objectifs du projet}
+
+Ce projet de Master poursuit un double objectif, structuré en deux phases complémentaires :
+
+\subsubsection{Phase 1 : Digitalisation opérationnelle (MVP)}
+
+Développer une application web permettant de :
+\begin{itemize}[nosep]
+    \item remplacer les inventaires papier par une saisie numérique centralisée ;
+    \item digitaliser les feuilles horaires avec signature électronique ;
+    \item implémenter des checklists de contrôle traçables ;
+    \item fournir un tableau de bord en temps réel au chef des opérations.
+\end{itemize}
+
+\subsubsection{Phase 2 : Analyse prédictive}
+
+Explorer les possibilités d'optimisation par la donnée :
+\begin{itemize}[nosep]
+    \item analyser les historiques de consommation (données POS) ;
+    \item identifier les facteurs influençant la demande (météo, type de match, affluence) ;
+    \item proposer un modèle de prévision de la consommation par buvette ;
+    \item formuler des recommandations pour l'optimisation des stocks.
+\end{itemize}
+
+\subsection{Questions de recherche}
+
+Ce travail vise à répondre aux questions suivantes :
+
+\begin{enumerate}
+    \item Comment concevoir une interface suffisamment simple pour être utilisable par des responsables de buvette peu familiers avec les outils numériques ?
+    \item Dans quelle mesure les données historiques permettent-elles de prédire la consommation lors d'événements sportifs ?
+    \item Quels facteurs contextuels (météo, type de match, saison) ont un impact significatif sur la demande ?
+\end{enumerate}
+
+\section{Périmètre et méthodologie}
+
+\subsection{Délimitation du périmètre}
+
+Le tableau~\ref{tab:perimetre} synthétise les éléments inclus et exclus du projet.
+
+\begin{table}[H]
+\centering
+\caption{Délimitation du périmètre du projet}
+\label{tab:perimetre}
+\begin{tabular}{@{}p{7cm}p{7cm}@{}}
+\toprule
+\textbf{Inclus} & \textbf{Exclus} \\
+\midrule
+Gestion des inventaires (initial et final) & Gestion de caisse et encaissements \\
+Suivi des heures de travail & Intégration comptable (Odoo) \\
+Checklists de contrôle & Commandes fournisseurs automatisées \\
+Tableau de bord opérationnel & Gestion RH complète \\
+Analyse exploratoire des données de vente & Déploiement en production définitif \\
+Prototype de modèle prédictif & Application mobile native \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Approche méthodologique}
+
+Ce projet s'inscrit dans une démarche de \textit{Design Science Research}, combinant :
+\begin{itemize}[nosep]
+    \item une \textbf{analyse du domaine} pour comprendre les processus existants et identifier les besoins ;
+    \item une \textbf{conception itérative} avec validation auprès des utilisateurs finaux ;
+    \item un \textbf{développement incrémental} permettant des ajustements en cours de projet ;
+    \item une \textbf{évaluation} de l'artefact produit selon des critères d'utilité et d'utilisabilité.
+\end{itemize}
+
+\subsection{Structure du rapport}
+
+Ce rapport est organisé comme suit :
+\begin{itemize}[nosep]
+    \item \textbf{Chapitre 2} : Analyse détaillée du domaine et des processus existants (AS-IS)
+    \item \textbf{Chapitre 3} : État de l'art sur les SI événementiels et la prévision de stock
+    \item \textbf{Chapitre 4} : Spécifications du système cible (TO-BE)
+    \item \textbf{Chapitre 5} : Modélisation et conception
+    \item \textbf{Chapitre 6} : Implémentation de la Phase 1 (MVP opérationnel)
+    \item \textbf{Chapitre 7} : Exploration prédictive (Phase 2)
+    \item \textbf{Chapitre 8} : Validation et tests
+    \item \textbf{Chapitre 9} : Discussion
+    \item \textbf{Chapitre 10} : Conclusion
+\end{itemize}
+
+%========================================================================
+% CHAPITRE 2 : ANALYSE DU DOMAINE ET DE L'EXISTANT
+%========================================================================
+\chapter{Analyse du domaine et de l'existant}
+
+\section{Présentation de Prime\&Co et du fonctionnement des buvettes}
+
+Cette section approfondit l'analyse organisationnelle de \primeco{} en détaillant la structure hiérarchique, les responsabilités de chaque acteur et les interactions entre les différentes fonctions. Cette compréhension fine de l'écosystème opérationnel constitue un prérequis indispensable à la conception d'un système d'information adapté aux réalités du terrain.
+
+\subsection{Structure organisationnelle}
+
+L'organisation de \primeco{} se caractérise par une structure légère et agile, adaptée à la nature intermittente de son activité événementielle. La figure~\ref{fig:organigramme} présente l'organigramme fonctionnel de l'entreprise.
+
+% Note: Ajouter une figure si disponible
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.7\textwidth]{images/organigramme.png}
+%     \caption{Organigramme fonctionnel de Prime\&Co}
+%     \label{fig:organigramme}
+% \end{figure}
+
+\subsubsection{Direction et coordination}
+
+Au sommet de la hiérarchie opérationnelle se trouve le \textbf{chef des opérations}, qui assume un rôle central dans le fonctionnement de l'entreprise. Ses responsabilités englobent :
+
+\begin{itemize}[nosep]
+    \item la \textbf{planification stratégique} : négociation des contrats avec les sites, définition du calendrier annuel, allocation des ressources ;
+    \item la \textbf{coordination opérationnelle} : supervision de l'ensemble des activités avant, pendant et après chaque événement ;
+    \item la \textbf{gestion des ressources humaines} : recrutement des responsables de buvette, définition des besoins en personnel temporaire ;
+    \item le \textbf{contrôle qualité} : analyse des performances, identification des dysfonctionnements, mise en place d'actions correctives ;
+    \item les \textbf{relations partenariales} : interface avec les gestionnaires des sites sportifs, l'agence Hotelis et les fournisseurs.
+\end{itemize}
+
+Le chef des opérations constitue le point focal de l'information : l'ensemble des données remontant du terrain (inventaires, heures, incidents) transite par lui avant d'être exploité pour le pilotage de l'activité.
+
+\subsubsection{Équipe permanente}
+
+L'équipe permanente de \primeco{} se limite à :
+
+\begin{itemize}[nosep]
+    \item \textbf{Le chef des opérations} : unique salarié permanent à temps plein, il coordonne l'ensemble des activités ;
+    \item \textbf{Les logisticiens} (2-3 personnes) : responsables de l'approvisionnement des buvettes, de la gestion des stocks centraux et de la préparation matérielle avant les événements.
+\end{itemize}
+
+\subsubsection{Personnel temporaire via Hotelis}
+
+La quasi-totalité du personnel de terrain est fournie par l'agence de placement \textbf{Hotelis}, spécialisée dans l'intérim hôtelier et événementiel. Ce personnel se divise en deux catégories :
+
+\paragraph{Les responsables de buvette}
+Il s'agit d'extras ayant travaillé à plusieurs reprises pour \primeco{} et ayant démontré leur fiabilité et leurs compétences. Bien qu'ils restent juridiquement des employés temporaires d'Hotelis, ils bénéficient d'une relation de confiance avec l'entreprise et sont systématiquement sollicités pour superviser un point de vente lors des événements. Un pool de 8 à 12 personnes assure cette fonction de manière récurrente.
+
+\paragraph{Les extras}
+Le reste du personnel temporaire est constitué de collaborateurs affectés au service direct (vente, encaissement, préparation). Leurs caractéristiques présentent des implications directes sur la conception du système :
+
+\begin{itemize}[nosep]
+    \item \textbf{Forte rotation} : les extras changent fréquemment d'un événement à l'autre, limitant la capitalisation sur l'expérience acquise ;
+    \item \textbf{Formation limitée} : le temps de formation disponible avant chaque événement est minimal ;
+    \item \textbf{Profils variés} : les niveaux de compétence et de familiarité avec les outils numériques sont hétérogènes ;
+    \item \textbf{Contraintes administratives} : les heures travaillées doivent être transmises à Hotelis pour le versement des salaires.
+\end{itemize}
+
+\subsection{Rôle du responsable de buvette}
+
+Le responsable de buvette occupe une position charnière dans l'organisation. Il constitue l'interface entre l'équipe de direction (chef des opérations) et le personnel de terrain (extras). Ses attributions couvrent l'ensemble du cycle événementiel.
+
+\subsubsection{Avant l'événement}
+
+\begin{itemize}[nosep]
+    \item \textbf{Prise de connaissance du briefing} : réception des informations relatives à l'événement (horaires, effectifs prévus, consignes particulières) ;
+    \item \textbf{Vérification de la préparation} : contrôle de la mise en place effectuée par les logisticiens (stocks, équipements, propreté) ;
+    \item \textbf{Réalisation de l'inventaire initial} : comptage et consignation des quantités de produits disponibles avant l'ouverture.
+\end{itemize}
+
+\subsubsection{Pendant l'événement}
+
+\begin{itemize}[nosep]
+    \item \textbf{Accueil et encadrement des extras} : vérification des présences, attribution des postes, transmission des consignes ;
+    \item \textbf{Supervision du service} : coordination des activités de vente, gestion des pics d'affluence, résolution des problèmes opérationnels ;
+    \item \textbf{Gestion des réapprovisionnements} : identification des ruptures imminentes, communication avec la logistique pour les ravitaillements ;
+    \item \textbf{Contrôle de conformité} : veille au respect des normes d'hygiène et des procédures de vente.
+\end{itemize}
+
+\subsubsection{Après l'événement}
+
+\begin{itemize}[nosep]
+    \item \textbf{Réalisation de l'inventaire final} : comptage exhaustif des produits restants ;
+    \item \textbf{Saisie des heures de travail} : enregistrement des heures effectives de chaque extra sur la feuille horaire ;
+    \item \textbf{Collecte des signatures} : obtention de la validation écrite de chaque collaborateur temporaire ;
+    \item \textbf{Clôture administrative} : remise des documents (inventaire, feuille horaire) au chef des opérations ;
+    \item \textbf{Supervision du rangement} : contrôle de la remise en état de la buvette.
+\end{itemize}
+
+\subsubsection{Profil type et contraintes}
+
+Les responsables de buvette présentent généralement les caractéristiques suivantes :
+
+\begin{itemize}[nosep]
+    \item expérience dans la restauration ou l'événementiel ;
+    \item capacité à gérer le stress et les situations d'affluence ;
+    \item aptitude au management d'équipe ;
+    \item niveau de familiarité avec les outils numériques \textbf{variable} (souvent limité).
+\end{itemize}
+
+Cette dernière caractéristique constitue une contrainte majeure pour la conception du système : l'interface utilisateur doit être suffisamment intuitive pour être utilisable sans formation approfondie, y compris par des utilisateurs peu à l'aise avec les technologies numériques.
+
+\subsection{Rôle des équipes opérationnelles et logistique}
+
+\subsubsection{Les logisticiens}
+
+Les logisticiens assurent le bon fonctionnement matériel des buvettes. Leurs missions s'articulent autour de trois axes :
+
+\paragraph{Gestion des stocks centraux}
+\begin{itemize}[nosep]
+    \item réception et contrôle des livraisons fournisseurs ;
+    \item stockage organisé des marchandises dans l'entrepôt central ;
+    \item suivi des dates de péremption et rotation des stocks (FIFO) ;
+    \item inventaire périodique du stock central.
+\end{itemize}
+
+\paragraph{Préparation des événements}
+\begin{itemize}[nosep]
+    \item préparation des commandes par buvette selon les prévisions du chef des opérations ;
+    \item chargement et transport des marchandises vers les sites ;
+    \item mise en place physique des buvettes (installation des produits, vérification des équipements) ;
+    \item ravitaillement d'urgence pendant l'événement si nécessaire.
+\end{itemize}
+
+\paragraph{Maintenance et hygiène}
+\begin{itemize}[nosep]
+    \item vérification du bon fonctionnement des équipements (réfrigérateurs, tireuses à bière, machines à café) ;
+    \item nettoyage et désinfection des postes de travail ;
+    \item signalement des pannes et coordination des réparations.
+\end{itemize}
+
+\subsubsection{Interactions entre les fonctions}
+
+Le fonctionnement efficace de l'organisation repose sur une coordination étroite entre les différentes fonctions. Le tableau~\ref{tab:interactions} synthétise les principales interactions.
+
+\begin{table}[H]
+\centering
+\caption{Matrice des interactions entre les acteurs de Prime\&Co}
+\label{tab:interactions}
+\begin{tabular}{@{}p{3cm}p{3cm}p{7cm}@{}}
+\toprule
+\textbf{Émetteur} & \textbf{Récepteur} & \textbf{Nature de l'interaction} \\
+\midrule
+Chef des opérations & Logisticiens & Transmission des besoins d'approvisionnement par buvette \\
+\addlinespace
+Chef des opérations & Responsables & Communication du planning, des affectations et des consignes \\
+\addlinespace
+Logisticiens & Responsables & Confirmation de la préparation des buvettes \\
+\addlinespace
+Responsables & Chef des opérations & Remontée des inventaires, heures travaillées, incidents \\
+\addlinespace
+Responsables & Logisticiens & Demandes de réapprovisionnement pendant l'événement \\
+\addlinespace
+Chef des opérations & Hotelis & Transmission des heures pour le traitement de la paie \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Ces flux d'information, actuellement gérés de manière informelle (téléphone, messages, documents papier), constituent autant d'opportunités de digitalisation identifiées dans le cadre de ce projet.
+
+\section{Processus actuels (AS-IS)}
+
+Cette section présente une analyse détaillée des processus opérationnels actuellement en vigueur au sein de \primeco{} pour la gestion des buvettes lors des événements sportifs. L'objectif est de cartographier l'ensemble des flux de travail existants afin d'identifier les axes d'amélioration potentiels.
+
+Le fonctionnement actuel repose principalement sur des supports documentaires physiques, des procédures de saisie manuelle et une coordination interpersonnelle entre les différents acteurs impliqués : le chef des opérations, les logisticiens, les responsables de buvette et le personnel temporaire (extras).
+
+La figure~\ref{fig:bpmn-as-is-ch2} illustre, selon la notation \gls{bpmn}, l'orchestration des activités entre ces quatre catégories d'acteurs tout au long du cycle événementiel, de la phase préparatoire à la clôture post-événement.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/bpmn_as_is.png}
+    \caption{Modélisation BPMN du processus AS-IS de gestion des buvettes}
+    \label{fig:bpmn-as-is-ch2}
+\end{figure}
+
+\subsection{Gestion de l'inventaire}
+
+La procédure d'inventaire constitue une étape fondamentale du processus opérationnel. Elle est réalisée à deux moments distincts : en amont de l'ouverture de la buvette (inventaire initial) et à la clôture de l'événement (inventaire final).
+
+\subsubsection{Inventaire initial}
+
+Avant chaque événement, le responsable de buvette procède à un comptage exhaustif des produits disponibles. Cette opération vise à établir une base de référence pour le suivi de la consommation. Les quantités relevées sont consignées sur un formulaire papier préparé par le chef des opérations.
+
+\subsubsection{Inventaire de fin de match}
+
+À l'issue de chaque événement, le responsable de buvette effectue un inventaire final du stock résiduel. Cette procédure implique les opérations suivantes :
+
+\begin{itemize}[nosep]
+    \item le dénombrement manuel de l'ensemble des boissons, denrées alimentaires et consommables restants ;
+    \item la consignation des quantités sur la fiche d'inventaire papier ;
+    \item la comparaison implicite avec les données de l'inventaire initial.
+\end{itemize}
+
+Cette étape revêt une importance stratégique dans la mesure où elle permet d'évaluer les volumes réellement écoulés, de détecter d'éventuelles anomalies de stock (écarts, pertes, erreurs de comptage) et de communiquer les besoins de réapprovisionnement à l'équipe logistique.
+
+Néanmoins, cette procédure présente plusieurs contraintes opérationnelles. Son caractère intégralement manuel la rend particulièrement chronophage et susceptible d'erreurs, notamment en raison de la fatigue accumulée en fin d'événement et des contraintes temporelles liées à la fermeture du site.
+
+\subsection{Gestion des feuilles horaires}
+
+Le suivi du temps de travail du personnel temporaire s'appuie sur un système de feuilles horaires au format papier, élaborées en amont par le chef des opérations.
+
+\subsubsection{Contenu et structure}
+
+Chaque feuille horaire comporte les éléments suivants :
+
+\begin{itemize}[nosep]
+    \item l'identification nominative des extras affectés à la buvette ;
+    \item les horaires théoriques de début et de fin de service ;
+    \item des champs dédiés à la saisie des heures effectives ;
+    \item un emplacement réservé à la signature de validation.
+\end{itemize}
+
+\subsubsection{Procédure de suivi}
+
+Durant l'événement, le responsable de buvette assure le contrôle de présence du personnel et note manuellement les heures de fin de service effectives. À l'issue de la prestation, chaque extra est tenu d'apposer sa signature sur le document, attestant ainsi de la conformité des informations renseignées.
+
+\subsubsection{Limites identifiées}
+
+Ce dispositif, bien qu'opérationnel, présente plusieurs vulnérabilités :
+
+\begin{itemize}[nosep]
+    \item un risque d'omission des signatures en contexte de forte affluence ;
+    \item une exposition aux erreurs de transcription manuscrite ;
+    \item une fragilité matérielle des supports (détérioration, perte) ;
+    \item la nécessité d'une ressaisie ultérieure des données dans les systèmes informatiques.
+\end{itemize}
+
+\subsection{Listes de contrôle (checklists)}
+
+Les procédures de vérification préalables à l'ouverture d'une buvette demeurent, dans le fonctionnement actuel, largement informelles et non standardisées.
+
+\subsubsection{Périmètre des contrôles}
+
+Ces vérifications portent principalement sur :
+
+\begin{itemize}[nosep]
+    \item l'état de fonctionnement des équipements (réfrigérateurs, machines à café, tireuses) ;
+    \item la disponibilité et la conformité des produits avant l'ouverture au public ;
+    \item les conditions générales d'hygiène et de propreté du point de vente.
+\end{itemize}
+
+\subsubsection{Modalités d'exécution}
+
+Ces contrôles sont effectués conjointement par les logisticiens, lors de la préparation de la buvette, et par les responsables de buvette, à leur prise de poste. Toutefois, l'absence de formalisation engendre plusieurs difficultés :
+
+\begin{itemize}[nosep]
+    \item aucune documentation systématique n'est produite ;
+    \item les traces formelles de vérification sont inexistantes ;
+    \item les pratiques varient d'une buvette à l'autre, sans référentiel commun.
+\end{itemize}
+
+Cette situation compromet la capacité à effectuer des audits a posteriori, à établir les responsabilités en cas d'incident et à engager une démarche d'amélioration continue des processus.
+
+\subsection{Flux de communication}
+
+Les échanges d'information entre les différentes parties prenantes (responsables de buvette, logisticiens, chef des opérations) s'appuient sur des canaux hétérogènes et non formalisés.
+
+\subsubsection{Canaux utilisés}
+
+La communication opérationnelle repose sur :
+
+\begin{itemize}[nosep]
+    \item des échanges verbaux directs sur le terrain ;
+    \item des messages instantanés via applications tierces (WhatsApp, SMS) ;
+    \item la transmission physique des documents papier en fin d'événement.
+\end{itemize}
+
+\subsubsection{Absence de centralisation}
+
+Il n'existe actuellement aucun système centralisé permettant de :
+
+\begin{itemize}[nosep]
+    \item transmettre les données d'inventaire de manière structurée ;
+    \item signaler les incidents ou dysfonctionnements en temps réel ;
+    \item partager une vision consolidée de l'état des différentes buvettes.
+\end{itemize}
+
+\subsubsection{Conséquences opérationnelles}
+
+Cette fragmentation des flux informationnels engendre des délais dans le processus décisionnel, des risques d'incompréhension ou de perte d'information, ainsi qu'une forte dépendance à la disponibilité individuelle des acteurs concernés.
+
+\subsection{Synthèse des dysfonctionnements}
+
+L'analyse du processus AS-IS met en lumière plusieurs problématiques structurelles qui affectent l'efficience globale de la gestion des buvettes. Ces dysfonctionnements sont synthétisés dans le tableau~\ref{tab:problemes-as-is}.
+
+\begin{table}[H]
+\centering
+\caption{Synthèse des problématiques identifiées dans le processus AS-IS}
+\label{tab:problemes-as-is}
+\begin{tabular}{@{}p{4cm}p{9cm}@{}}
+\toprule
+\textbf{Problématique} & \textbf{Description et impacts} \\
+\midrule
+Dépendance aux supports papier & Les documents physiques sont exposés aux risques de perte, de détérioration ou d'illisibilité, compromettant la fiabilité des données collectées. \\
+\addlinespace
+Double saisie des données & Les informations consignées manuellement doivent être ressaisies dans les outils informatiques (Excel, ERP), multipliant les risques d'erreurs de transcription. \\
+\addlinespace
+Déficit de traçabilité & L'absence d'horodatage automatique et d'identification des opérateurs rend difficile la reconstitution chronologique des actions effectuées. \\
+\addlinespace
+Charge administrative & Le chef des opérations consacre un temps significatif à la collecte, à la numérisation et à la saisie des documents post-événement. \\
+\addlinespace
+Visibilité différée & Les anomalies ou écarts ne sont détectés qu'a posteriori, parfois plusieurs jours après l'événement, limitant les possibilités d'action corrective. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Ces constats constituent le fondement de la réflexion menée dans le cadre de ce projet et justifient pleinement la conception d'un processus cible (TO-BE) reposant sur une infrastructure numérique centralisée, fiable et adaptée aux contraintes opérationnelles du terrain. Ce processus cible sera détaillé dans le chapitre suivant.
+
+\section{Identification des besoins métier}
+
+\subsection{Interviews et observations}
+% TODO: Méthodologie de collecte
+
+\subsection{Besoins fonctionnels}
+% TODO: Liste des besoins fonctionnels
+
+\subsection{Besoins non fonctionnels}
+% TODO: Liste des besoins non fonctionnels
+
+\section{Contraintes}
+
+\begin{itemize}
+    \item Simplicité absolue pour les responsables
+    \item Utilisation sur tablette
+    \item Stabilité même en cas de pression (rush)
+    \item Sécurité minimale (accès contrôlé)
+\end{itemize}
+
+%========================================================================
+% CHAPITRE 3 : ÉTAT DE L'ART ET CADRE THÉORIQUE
+%========================================================================
+\chapter{État de l'art et cadre théorique}
+
+Ce chapitre positionne le projet dans son contexte scientifique et professionnel. Il présente les travaux existants dans les domaines concernés et établit le cadre conceptuel sur lequel s'appuie la conception du système.
+
+\section{Systèmes d'information pour l'événementiel}
+
+\subsection{Digitalisation du secteur événementiel}
+
+Le secteur de l'événementiel sportif connaît une transformation numérique accélérée depuis les années 2010. Les enceintes sportives modernes intègrent désormais des systèmes de billetterie électronique, des applications mobiles pour spectateurs, et des outils de gestion opérationnelle.
+
+Cependant, la gestion des points de restauration (buvettes, stands de nourriture) reste souvent moins digitalisée que d'autres aspects de l'événementiel. Plusieurs facteurs expliquent ce retard :
+\begin{itemize}[nosep]
+    \item la fragmentation des acteurs (concessionnaires multiples) ;
+    \item le recours massif au personnel temporaire, peu formé aux outils numériques ;
+    \item les conditions opérationnelles difficiles (bruit, affluence, contraintes de temps) ;
+    \item le faible investissement technologique des PME du secteur.
+\end{itemize}
+
+\subsection{Solutions existantes sur le marché}
+
+Les solutions de gestion de restauration événementielle se répartissent en plusieurs catégories :
+
+\begin{itemize}[nosep]
+    \item \textbf{Systèmes de point de vente (POS)} : solutions comme Lightspeed, Square ou Toast, focalisées sur l'encaissement et le reporting des ventes ;
+    \item \textbf{Logiciels de gestion de stock} : outils génériques (Odoo, SAP) rarement adaptés aux spécificités événementielles ;
+    \item \textbf{Plateformes intégrées} : solutions comme Oracle MICROS ou NCR Aloha, destinées aux grandes chaînes de restauration.
+\end{itemize}
+
+Le constat est que ces solutions sont souvent surdimensionnées ou inadaptées aux besoins spécifiques d'un prestataire comme \primeco{}, qui opère dans un contexte intermittent avec du personnel temporaire.
+
+\section{Gestion de stock et prévision de la demande}
+
+\subsection{Enjeux de la gestion de stock en contexte événementiel}
+
+La gestion de stock dans un contexte événementiel présente des caractéristiques distinctives :
+\begin{itemize}[nosep]
+    \item \textbf{Demande intermittente} : les ventes se concentrent sur quelques heures par semaine (jours de match) ;
+    \item \textbf{Forte variabilité} : la demande dépend de nombreux facteurs externes (météo, attractivité du match, saison) ;
+    \item \textbf{Contraintes de péremption} : certains produits (fûts de bière, denrées fraîches) ont une durée de vie limitée ;
+    \item \textbf{Coût d'immobilisation} : le stock représente une trésorerie immobilisée.
+\end{itemize}
+
+L'objectif est de trouver un équilibre entre deux risques opposés :
+\begin{itemize}[nosep]
+    \item le \textbf{risque de rupture} : manque de produits entraînant des ventes perdues et une insatisfaction client ;
+    \item le \textbf{risque de surstock} : capital immobilisé, pertes liées aux péremptions.
+\end{itemize}
+
+\subsection{Méthodes classiques de prévision}
+
+Les approches traditionnelles de prévision de la demande incluent :
+
+\subsubsection{Méthodes statistiques}
+\begin{itemize}[nosep]
+    \item \textbf{Moyenne mobile} : calcul de la consommation moyenne sur les N derniers événements comparables ;
+    \item \textbf{Lissage exponentiel} : pondération décroissante des observations passées ;
+    \item \textbf{Décomposition saisonnière} : identification des patterns récurrents (début/fin de saison, météo).
+\end{itemize}
+
+\subsubsection{Approches par apprentissage automatique}
+\begin{itemize}[nosep]
+    \item \textbf{Régression} : modélisation de la relation entre variables explicatives et demande ;
+    \item \textbf{Arbres de décision} : segmentation en fonction des caractéristiques de l'événement ;
+    \item \textbf{Réseaux de neurones} : modèles plus complexes pour capturer des relations non-linéaires.
+\end{itemize}
+
+Dans le contexte de ce projet, la disponibilité limitée des données historiques (2-3 saisons) oriente plutôt vers des approches statistiques classiques ou des modèles de machine learning simples.
+
+\section{Conception d'interfaces pour utilisateurs non-techniques}
+
+\subsection{Principes d'utilisabilité}
+
+La conception d'interfaces destinées à des utilisateurs non familiers avec les outils numériques s'appuie sur plusieurs principes clés :
+
+\begin{itemize}[nosep]
+    \item \textbf{Simplicité} : réduire le nombre d'options visibles et les chemins de navigation ;
+    \item \textbf{Feedback immédiat} : confirmer visuellement chaque action de l'utilisateur ;
+    \item \textbf{Prévention des erreurs} : limiter les possibilités d'actions incorrectes plutôt que de traiter les erreurs a posteriori ;
+    \item \textbf{Cohérence} : maintenir des patterns d'interaction uniformes dans toute l'application ;
+    \item \textbf{Accessibilité} : taille des éléments adaptée à l'usage tactile, contraste suffisant.
+\end{itemize}
+
+\subsection{Conception pour contexte de stress}
+
+L'utilisation de l'application dans un contexte de forte affluence (mi-temps, entre-périodes) impose des contraintes supplémentaires :
+\begin{itemize}[nosep]
+    \item temps d'interaction minimal requis ;
+    \item tolérance aux erreurs de manipulation ;
+    \item fonctionnement même en cas de connectivité dégradée.
+\end{itemize}
+
+\section{Positionnement du projet}
+
+Ce projet se situe à l'intersection de plusieurs domaines :
+\begin{itemize}[nosep]
+    \item \textbf{Systèmes d'information} : conception et développement d'une application web métier ;
+    \item \textbf{Gestion des opérations} : optimisation des processus de gestion de stock ;
+    \item \textbf{Analyse de données} : exploitation des historiques pour la prévision.
+\end{itemize}
+
+La contribution principale réside dans l'adaptation de concepts et outils génériques au contexte spécifique de la restauration événementielle, caractérisé par son intermittence et l'hétérogénéité de ses utilisateurs.
+
+%========================================================================
+% CHAPITRE 4 : SPÉCIFICATIONS (TO-BE)
+%========================================================================
+\chapter{Spécifications (TO-BE)}
+
+\section{Objectifs fonctionnels du système}
+% TODO: Inventaire, horaires, checklists, synthèse, configuration des matchs
+
+\section{Acteurs du système}
+
+\subsection{Responsable de buvette}
+% TODO: Décrire le rôle et les permissions
+
+\subsection{Chef des opérations}
+% TODO: Décrire le rôle et les permissions
+
+\subsection{Logisticien}
+% TODO: Décrire le rôle et les permissions
+
+\subsection{Administrateur / Back-office}
+% TODO: Décrire le rôle et les permissions
+
+\section{Cas d'usage (Use Cases)}
+
+\subsection{Liste des cas d'usage}
+% TODO: Énumérer tous les cas d'usage
+
+\subsection{Description détaillée des cas d'usage}
+% TODO: Pour chaque cas d'usage principal
+
+\subsection{Diagramme UML des cas d'usage}
+% TODO: Insérer le diagramme
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.9\textwidth]{images/use_case_diagram.png}
+%     \caption{Diagramme des cas d'usage}
+%     \label{fig:use-case}
+% \end{figure}
+
+\section{Exigences fonctionnelles}
+
+\subsection{Module Inventaire}
+% TODO: Détailler les exigences
+
+\subsection{Module Horaires}
+% TODO: Détailler les exigences
+
+\subsection{Module Checklists}
+% TODO: Détailler les exigences
+
+\subsection{Module Référentiels}
+% TODO: Détailler les exigences
+
+\section{Exigences non fonctionnelles}
+
+\subsection{Simplicité d'utilisation}
+% TODO: Critères d'utilisabilité
+
+\subsection{Performance}
+% TODO: Temps d'exécution attendus
+
+\subsection{Disponibilité}
+% TODO: Exigences de disponibilité
+
+\subsection{Sécurité}
+% TODO: Exigences de sécurité minimale
+
+\subsection{Ergonomie}
+% TODO: Adaptée aux utilisateurs non techniques
+
+%========================================================================
+% CHAPITRE 4 : MODÉLISATION ET CONCEPTION
+%========================================================================
+\chapter{Modélisation et conception}
+
+\section{Modélisation des processus}
+
+\subsection{BPMN AS-IS}
+% TODO: Processus actuels modélisés
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=\textwidth]{images/bpmn_as_is.png}
+%     \caption{Processus AS-IS en notation BPMN}
+%     \label{fig:bpmn-as-is}
+% \end{figure}
+
+\subsection{BPMN TO-BE}
+% TODO: Processus cibles modélisés
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=\textwidth]{images/bpmn_to_be.png}
+%     \caption{Processus TO-BE en notation BPMN}
+%     \label{fig:bpmn-to-be}
+% \end{figure}
+
+\section{Modèle conceptuel (UML)}
+
+\subsection{Diagramme de classes}
+% TODO: Présenter le diagramme de classes
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=\textwidth]{images/class_diagram.png}
+%     \caption{Diagramme de classes UML}
+%     \label{fig:class-diagram}
+% \end{figure}
+
+\subsection{Relations clés}
+% TODO: Match, Buvette, Produit, Inventaire, Extra, Horaire, Checklist
+
+\section{Architecture du système}
+
+\subsection{Vue d'ensemble de l'architecture}
+% TODO: Frontend / Backend / API / Base de données
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{images/architecture.png}
+%     \caption{Architecture du système}
+%     \label{fig:architecture}
+% \end{figure}
+
+\subsection{Architecture Frontend}
+% TODO: Décrire l'architecture côté client
+
+\subsection{Architecture Backend}
+% TODO: Décrire l'architecture côté serveur
+
+\subsection{API REST}
+% TODO: Décrire les endpoints principaux
+
+\subsection{Gestion des droits}
+% TODO: Logique d'authentification et d'autorisation
+
+\section{Conception de l'interface utilisateur}
+
+\subsection{Principes ergonomiques}
+% TODO: Principes de design adoptés
+
+\subsection{Maquettes et wireframes}
+% TODO: Présenter les maquettes (Figma / AI)
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{images/wireframe_example.png}
+%     \caption{Exemple de maquette d'interface}
+%     \label{fig:wireframe}
+% \end{figure}
+
+\subsection{Justification des choix de conception}
+% TODO: Simplicité, lisibilité
+
+\section{Conception de la base de données}
+
+\subsection{Schéma relationnel}
+% TODO: Présenter le schéma
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=\textwidth]{images/database_schema.png}
+%     \caption{Schéma de la base de données}
+%     \label{fig:db-schema}
+% \end{figure}
+
+\subsection{Tables principales}
+% TODO: Décrire les tables
+
+\subsection{Contraintes et clés}
+% TODO: Clés primaires, étrangères, contraintes d'intégrité
+
+%========================================================================
+% CHAPITRE 6 : IMPLÉMENTATION DE LA PHASE 1 (MVP OPÉRATIONNEL)
+%========================================================================
+\chapter{Implémentation de la Phase 1 : MVP opérationnel}
+
+\section{Environnement technique choisi}
+
+Cette section présente les choix technologiques effectués pour le développement du système de gestion des buvettes. Ces décisions ont été guidées par plusieurs critères : la maintenabilité du code, la facilité de déploiement, les compétences disponibles et l'adéquation avec les contraintes opérationnelles identifiées.
+
+\subsection{Langages de programmation}
+
+Le développement du système repose sur un ensemble cohérent de langages, privilégiant l'écosystème JavaScript/TypeScript pour l'ensemble de la pile applicative.
+
+\subsubsection{TypeScript}
+
+Le backend de l'application a été développé en \textbf{TypeScript}, un sur-ensemble typé de JavaScript développé par Microsoft. Ce choix se justifie par plusieurs avantages :
+
+\begin{itemize}[nosep]
+    \item \textbf{Typage statique} : la détection des erreurs à la compilation plutôt qu'à l'exécution réduit significativement les bugs en production ;
+    \item \textbf{Autocomplétion et documentation} : l'intégration avec les environnements de développement (IDE) améliore la productivité ;
+    \item \textbf{Refactoring sécurisé} : les modifications de code sont propagées automatiquement grâce au système de types ;
+    \item \textbf{Compatibilité JavaScript} : le code TypeScript est compilé en JavaScript standard, garantissant une compatibilité totale avec l'écosystème Node.js.
+\end{itemize}
+
+\subsubsection{JavaScript (ES6+)}
+
+Le frontend de l'application utilise du \textbf{JavaScript} moderne (ECMAScript 2015 et versions ultérieures) sans framework lourd. Ce choix délibéré répond à plusieurs objectifs :
+
+\begin{itemize}[nosep]
+    \item \textbf{Simplicité de déploiement} : aucune étape de compilation n'est requise pour le frontend, facilitant les mises à jour ;
+    \item \textbf{Performance} : l'absence de framework réduit la taille des fichiers téléchargés par le navigateur ;
+    \item \textbf{Maintenabilité} : le code reste accessible à des développeurs n'ayant pas de compétences spécifiques sur un framework particulier.
+\end{itemize}
+
+\subsubsection{HTML5 et CSS3}
+
+L'interface utilisateur s'appuie sur les standards \textbf{HTML5} et \textbf{CSS3} pour la structuration et la mise en forme des pages. Les fonctionnalités modernes suivantes ont été exploitées :
+
+\begin{itemize}[nosep]
+    \item \textbf{Flexbox et Grid} : pour la mise en page adaptative (responsive design) ;
+    \item \textbf{Variables CSS} : pour la gestion centralisée des couleurs et des espacements ;
+    \item \textbf{Transitions et animations} : pour améliorer le feedback visuel lors des interactions utilisateur.
+\end{itemize}
+
+\subsection{Frameworks utilisés}
+
+\subsubsection{Express.js (Backend)}
+
+Le serveur backend repose sur \textbf{Express.js}, un framework web minimaliste pour Node.js. Ce choix se justifie par :
+
+\begin{itemize}[nosep]
+    \item \textbf{Maturité et stabilité} : Express.js est le framework Node.js le plus utilisé, bénéficiant d'une communauté active et d'une documentation exhaustive ;
+    \item \textbf{Flexibilité} : son architecture basée sur des middlewares permet une personnalisation fine du traitement des requêtes ;
+    \item \textbf{Performance} : sa légèreté garantit des temps de réponse optimaux ;
+    \item \textbf{Écosystème riche} : de nombreux packages complémentaires sont disponibles (authentification, validation, etc.).
+\end{itemize}
+
+L'API développée suit les principes \gls{rest}, exposant des endpoints structurés pour chaque ressource du système (événements, buvettes, inventaires, horaires, checklists).
+
+\subsubsection{Prisma (ORM)}
+
+L'interaction avec la base de données est gérée par \textbf{Prisma}, un ORM (Object-Relational Mapping) moderne pour TypeScript et JavaScript. Les avantages de Prisma incluent :
+
+\begin{itemize}[nosep]
+    \item \textbf{Schéma déclaratif} : le modèle de données est défini dans un fichier unique (\texttt{schema.prisma}), servant de source de vérité ;
+    \item \textbf{Génération automatique de types} : le client Prisma génère des types TypeScript correspondant exactement au schéma de la base ;
+    \item \textbf{Migrations} : Prisma gère automatiquement l'évolution du schéma de base de données ;
+    \item \textbf{Portabilité} : le même code fonctionne avec différents moteurs de bases de données (PostgreSQL, MySQL, SQLite).
+\end{itemize}
+
+\subsubsection{Bibliothèques complémentaires}
+
+Le développement s'appuie également sur plusieurs bibliothèques spécialisées :
+
+\begin{table}[H]
+\centering
+\caption{Bibliothèques principales utilisées dans le projet}
+\label{tab:libraries}
+\begin{tabular}{@{}llp{7cm}@{}}
+\toprule
+\textbf{Bibliothèque} & \textbf{Version} & \textbf{Usage} \\
+\midrule
+\texttt{cors} & 2.8.5 & Gestion des politiques CORS pour les requêtes cross-origin \\
+\texttt{jsonwebtoken} & 9.0.2 & Génération et validation des tokens JWT pour l'authentification \\
+\texttt{bcrypt} & 6.0.0 & Hachage sécurisé des mots de passe \\
+\texttt{zod} & 4.1.13 & Validation et typage des données entrantes \\
+\texttt{dotenv} & 17.2.3 & Gestion des variables d'environnement \\
+\texttt{pino} & 10.1.0 & Journalisation structurée des événements \\
+\texttt{xlsx} & 0.18.5 & Import et export de fichiers Excel \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Base de données}
+
+\subsubsection{Choix du système de gestion}
+
+Le système utilise une base de données relationnelle pour le stockage persistant des données. Deux moteurs ont été utilisés au cours du projet :
+
+\begin{itemize}[nosep]
+    \item \textbf{PostgreSQL} (développement local) : choisi pour ses fonctionnalités avancées et sa robustesse, PostgreSQL a servi de base pour le développement et les tests ;
+    \item \textbf{MySQL} (production) : imposé par l'hébergeur Infomaniak, MySQL a été adopté pour l'environnement de production. La migration a été facilitée par l'abstraction offerte par Prisma.
+\end{itemize}
+
+\subsubsection{Modèle de données}
+
+Le schéma de la base de données reflète les entités métier identifiées lors de l'analyse. Les tables principales sont les suivantes :
+
+\begin{itemize}[nosep]
+    \item \textbf{Event} : événements sportifs (matchs) avec leurs métadonnées (date, lieu, sport) ;
+    \item \textbf{Buvette} : points de vente avec leur nom et leur localisation ;
+    \item \textbf{EventBuvette} : association entre événements et buvettes, incluant le responsable assigné ;
+    \item \textbf{Product} : catalogue des produits vendus (boissons, nourriture) ;
+    \item \textbf{BuvetteProduct} : association entre buvettes et produits, avec le stock par défaut ;
+    \item \textbf{InventoryDelta} : relevés d'inventaire par événement et buvette ;
+    \item \textbf{StaffMember} : personnel temporaire (extras) ;
+    \item \textbf{StaffAssignment} : affectations du personnel aux buvettes pour un événement ;
+    \item \textbf{Timesheet} : feuilles horaires par événement et buvette ;
+    \item \textbf{Shift} : heures de travail individuelles ;
+    \item \textbf{ChecklistTemplate} : modèles de listes de contrôle ;
+    \item \textbf{ChecklistItem} : items composant les templates ;
+    \item \textbf{ChecklistResponse} : réponses aux checklists par événement/buvette ;
+    \item \textbf{User} : utilisateurs du système (administrateurs, chefs d'opération) ;
+    \item \textbf{Role} : rôles et permissions.
+\end{itemize}
+
+\subsubsection{Intégrité référentielle}
+
+Les relations entre entités sont gérées par des clés étrangères, garantissant la cohérence des données. Les contraintes de cascade ont été configurées pour supprimer automatiquement les enregistrements dépendants lors de la suppression d'une entité parente (par exemple, les shifts sont supprimés avec leur timesheet).
+
+\subsection{Serveur et hébergement}
+
+Le déploiement de la version bêta de l'application a été réalisé sur l'infrastructure d'hébergement Infomaniak, un fournisseur suisse offrant des services d'hébergement web conformes aux exigences de protection des données helvétiques. Cette section détaille l'architecture de déploiement mise en place ainsi que les étapes de configuration effectuées.
+
+\subsubsection{Architecture de déploiement}
+
+L'infrastructure de production repose sur une architecture à trois composants distincts, hébergés sur des sous-domaines séparés :
+
+\begin{itemize}[nosep]
+    \item \textbf{Frontend statique} : hébergé sur \texttt{prime-co.alexvavasseur.ch}, ce site statique contient l'ensemble des fichiers HTML, CSS et JavaScript de l'interface utilisateur ;
+    \item \textbf{Backend Node.js} : déployé sur \texttt{api.alexvavasseur.ch}, ce serveur Express.js expose l'API REST et gère la logique métier ;
+    \item \textbf{Base de données MySQL} : hébergée sur les serveurs mutualisés d'Infomaniak, accessible via l'hôte \texttt{*.myd.infomaniak.com}.
+\end{itemize}
+
+\subsubsection{Configuration de la base de données}
+
+La migration vers l'environnement de production a nécessité une adaptation du schéma Prisma pour passer de PostgreSQL (utilisé en développement local) à MySQL (imposé par l'hébergeur). Les principales modifications apportées au fichier \texttt{schema.prisma} incluent :
+
+\begin{lstlisting}[language=Java, caption={Configuration du provider Prisma pour MySQL}]
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+\end{lstlisting}
+
+La synchronisation du schéma avec la base de données distante a été effectuée via la commande \texttt{npx prisma db push}, permettant de créer les tables sans générer de fichiers de migration versionnés.
+
+\subsubsection{Déploiement du backend Node.js}
+
+Le serveur backend a été déployé selon la procédure suivante :
+
+\begin{enumerate}[nosep]
+    \item \textbf{Clonage du dépôt} : récupération du code source via Git sur le serveur Infomaniak ;
+    \item \textbf{Installation des dépendances} : exécution de \texttt{npm install} pour installer les modules Node.js ;
+    \item \textbf{Compilation TypeScript} : génération du code JavaScript via \texttt{npm run build}, produisant le dossier \texttt{dist/} ;
+    \item \textbf{Configuration des variables d'environnement} : création d'un fichier \texttt{.env} contenant les secrets (URL de la base de données, clés JWT) ;
+    \item \textbf{Configuration du script de démarrage} : dans le panneau de contrôle Infomaniak, définition du fichier d'entrée comme \texttt{dist/server.js} et de la commande de construction comme \texttt{npm install \&\& npm run build}.
+\end{enumerate}
+
+\subsubsection{Configuration CORS}
+
+Un aspect critique du déploiement concernait la configuration des politiques CORS (Cross-Origin Resource Sharing). Le frontend étant hébergé sur un domaine distinct du backend, il a été nécessaire d'autoriser explicitement les requêtes cross-origin dans le fichier \texttt{server.ts} :
+
+\begin{lstlisting}[language=Java, caption={Configuration CORS pour autoriser le domaine de production}]
+app.use(cors({
+  origin: [
+    "https://prime-co.alexvavasseur.ch",
+    "http://localhost:3000"
+  ],
+  credentials: true
+}));
+\end{lstlisting}
+
+\subsubsection{Déploiement du frontend}
+
+Le frontend, constitué de fichiers statiques (HTML, CSS, JavaScript), a été déployé sur un hébergement web classique d'Infomaniak. La configuration de l'URL de l'API a été externalisée dans un fichier \texttt{config.js} permettant de basculer facilement entre les environnements de développement et de production :
+
+\begin{lstlisting}[language=Java, caption={Configuration dynamique de l'URL de l'API}]
+const CONFIG = {
+  API_URL: "https://api.alexvavasseur.ch/api"
+};
+\end{lstlisting}
+
+\subsubsection{Difficultés rencontrées}
+
+Le processus de déploiement a permis d'identifier plusieurs points de vigilance :
+
+\begin{itemize}[nosep]
+    \item \textbf{Encodage des caractères spéciaux} : les mots de passe contenant des caractères réservés (comme \texttt{@}) dans les URLs de connexion doivent être encodés en pourcentage (par exemple, \texttt{\%40}) ;
+    \item \textbf{Rechargement des processus} : après modification du code, un redémarrage explicite du processus Node.js est requis pour que les changements prennent effet ;
+    \item \textbf{Commande de construction} : la configuration par défaut d'Infomaniak (\texttt{npm install}) ne déclenche pas la compilation TypeScript ; il est nécessaire de spécifier \texttt{npm install \&\& npm run build}.
+\end{itemize}
+
+\subsubsection{Accès à la version bêta}
+
+La version bêta de l'application est accessible aux adresses suivantes :
+
+\begin{itemize}[nosep]
+    \item Interface utilisateur : \url{https://prime-co.alexvavasseur.ch}
+    \item API backend : \url{https://api.alexvavasseur.ch/api}
+\end{itemize}
+
+\section{Modules développés}
+
+\subsection{Module Inventaire}
+% TODO: Fonctionnalités implémentées
+
+\subsection{Module Feuille d'horaire}
+% TODO: Fonctionnalités implémentées
+
+\subsection{Module Checklists}
+% TODO: Fonctionnalités implémentées
+
+\subsection{Module Configuration des matchs}
+% TODO: Fonctionnalités implémentées
+
+\subsection{Module Synthèses et dashboards}
+% TODO: Fonctionnalités implémentées
+
+\section{Problèmes rencontrés et solutions apportées}
+
+\subsection{Gestion des droits}
+% TODO: Défis et solutions
+
+\subsection{Ergonomie simplifiée}
+% TODO: Défis et solutions
+
+\subsection{Stabilité réseau}
+% TODO: Défis et solutions
+
+\subsection{Stockage des signatures}
+% TODO: Défis et solutions
+
+\section{Limitations actuelles du prototype}
+% TODO: Lister les limitations connues
+
+%========================================================================
+% CHAPITRE 7 : EXPLORATION PRÉDICTIVE (PHASE 2)
+%========================================================================
+\chapter{Exploration prédictive : Phase 2}
+
+Ce chapitre présente la dimension analytique et prédictive du projet. Contrairement à la Phase 1 qui a abouti à un prototype fonctionnel, cette phase constitue une exploration des possibilités offertes par l'exploitation des données historiques pour l'optimisation de la gestion des stocks.
+
+\section{Analyse exploratoire des données}
+
+\subsection{Sources de données disponibles}
+
+L'entreprise \primeco{} dispose de plusieurs sources de données potentiellement exploitables :
+
+\begin{itemize}[nosep]
+    \item \textbf{Données de point de vente (POS)} : historique des ventes par produit, par buvette et par événement sur 2-3 saisons ;
+    \item \textbf{Données d'inventaire} : relevés de stock initial et final (fichiers Excel de Quentin) ;
+    \item \textbf{Données d'affluence} : nombre de spectateurs par match, parfois par secteur ;
+    \item \textbf{Métadonnées événementielles} : date, heure, type de match (championnat, play-off), adversaire.
+\end{itemize}
+
+\subsection{Variables contextuelles externes}
+
+Plusieurs facteurs contextuels peuvent être intégrés pour enrichir l'analyse :
+
+\begin{itemize}[nosep]
+    \item \textbf{Météo} : température, précipitations, conditions générales ;
+    \item \textbf{Calendrier} : jour de la semaine, vacances scolaires, jours fériés ;
+    \item \textbf{Saison sportive} : début/milieu/fin de saison, matchs décisifs ;
+    \item \textbf{Attractivité du match} : classement des équipes, derby, rivalités historiques.
+\end{itemize}
+
+\subsection{Statistiques descriptives}
+% TODO: Ajouter les analyses exploratoires une fois les données obtenues
+% - Distribution des ventes par produit
+% - Variation selon le type de match
+% - Corrélation météo/consommation
+
+\section{Formulation du problème de prédiction}
+
+\subsection{Objectif}
+
+L'objectif est de prédire, pour un événement donné, la consommation attendue par produit et par buvette. Cette prédiction permettrait de :
+\begin{itemize}[nosep]
+    \item optimiser le stock initial de chaque buvette (réduire le capital immobilisé) ;
+    \item anticiper les besoins de réapprovisionnement (éviter les ruptures) ;
+    \item planifier les effectifs en fonction du niveau d'activité prévu.
+\end{itemize}
+
+\subsection{Variables explicatives}
+
+Les variables candidates pour le modèle de prédiction incluent :
+
+\begin{table}[H]
+\centering
+\caption{Variables explicatives pour le modèle de prédiction}
+\label{tab:variables-prediction}
+\begin{tabular}{@{}llp{6cm}@{}}
+\toprule
+\textbf{Catégorie} & \textbf{Variable} & \textbf{Hypothèse} \\
+\midrule
+Événement & Type de match & Play-off $>$ Championnat $>$ Amical \\
+Événement & Jour de la semaine & Week-end $>$ Semaine \\
+Événement & Heure de début & Matchs du soir $>$ Après-midi \\
+Météo & Température & Boissons froides corrélées positivement \\
+Météo & Précipitations & Impact négatif sur l'affluence \\
+Saison & Période & Début/fin de saison plus festifs \\
+Historique & Affluence moyenne & Proxy de la demande attendue \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Métrique d'évaluation}
+
+La qualité des prédictions sera évaluée selon :
+\begin{itemize}[nosep]
+    \item l'\textbf{erreur absolue moyenne (MAE)} : écart moyen entre prédiction et réalité ;
+    \item le \textbf{taux de rupture prédit vs réel} : capacité à éviter les ruptures ;
+    \item le \textbf{niveau de stock résiduel} : objectif de minimisation.
+\end{itemize}
+
+\section{Approches de modélisation}
+
+\subsection{Baseline : moyenne historique}
+
+L'approche la plus simple consiste à utiliser la consommation moyenne des N derniers matchs comparables (même type, même saison, même buvette).
+
+\subsection{Régression linéaire}
+
+Un modèle de régression linéaire peut être entraîné sur les variables explicatives identifiées pour prédire la consommation.
+
+\subsection{Approches avancées (pistes)}
+
+En fonction de la quantité et qualité des données, des approches plus sophistiquées pourraient être explorées :
+\begin{itemize}[nosep]
+    \item arbres de décision ou forêts aléatoires ;
+    \item gradient boosting (XGBoost, LightGBM) ;
+    \item modèles de séries temporelles (ARIMA, Prophet).
+\end{itemize}
+
+\section{Résultats préliminaires}
+% TODO: À compléter une fois l'analyse effectuée
+
+\section{Intégration dans le système}
+
+\subsection{Vision d'intégration}
+
+Le module prédictif pourrait être intégré au système développé en Phase 1 sous forme de :
+\begin{itemize}[nosep]
+    \item \textbf{recommandations de stock} : suggestions affichées lors de la préparation d'un événement ;
+    \item \textbf{alertes préventives} : notification si le stock prévu est insuffisant par rapport à la prédiction ;
+    \item \textbf{tableau de bord analytique} : visualisation des patterns de consommation.
+\end{itemize}
+
+\subsection{Limites et perspectives}
+
+L'intégration effective d'un module prédictif dépendra de :
+\begin{itemize}[nosep]
+    \item la qualité et la quantité des données historiques disponibles ;
+    \item la volonté de l'entreprise d'investir dans la maintenance d'un tel système ;
+    \item la validation des prédictions sur une période de test.
+\end{itemize}
+%========================================================================
+\chapter{Validation et tests}
+
+\section{Méthodologie de test}
+
+\subsection{Tests utilisateurs avec responsables de buvette}
+% TODO: Protocole de test
+
+\subsection{Tests back-office}
+% TODO: Protocole de test
+
+\subsection{Scénarios d'utilisation}
+% TODO: Décrire les scénarios testés
+
+\section{Résultats des tests}
+
+\subsection{Points positifs}
+% TODO: Ce qui fonctionne bien
+
+\subsection{Points à améliorer}
+% TODO: Axes d'amélioration identifiés
+
+\section{Ajustements réalisés après tests}
+% TODO: Modifications apportées suite aux retours
+
+%========================================================================
+% CHAPITRE 9 : DISCUSSION
+%========================================================================
+\chapter{Discussion}
+
+\section{Analyse de la valeur ajoutée pour Prime\&Co}
+
+\subsection{Gains de temps}
+% TODO: Quantifier les gains
+
+\subsection{Meilleure visibilité opérationnelle}
+% TODO: Avantages analytiques
+
+\subsection{Réduction des erreurs}
+% TODO: Fiabilité accrue
+
+\subsection{Uniformisation des processus}
+% TODO: Standardisation
+
+\section{Réflexion sur les limites du système}
+
+\subsection{Besoins supplémentaires futurs}
+% TODO: Fonctionnalités non couvertes
+
+\subsection{Dépendance au matériel}
+% TODO: Contraintes techniques
+
+\subsection{Complexité de certains modules}
+% TODO: Axes de simplification
+
+\section{Perspectives d'évolution}
+
+\subsection{Gestion de caisse}
+% TODO: Extension possible
+
+\subsection{Commande automatisée vers fournisseurs}
+% TODO: Extension possible
+
+\subsection{Application mobile native}
+% TODO: Extension possible
+
+\subsection{Statistiques avancées}
+% TODO: Extension possible
+
+%========================================================================
+% CHAPITRE 10 : CONCLUSION
+%========================================================================
+\chapter{Conclusion}
+
+\section{Résumé des résultats}
+% TODO: Synthèse des accomplissements
+
+\section{Contribution académique}
+% TODO: Apports théoriques et méthodologiques
+
+\section{Contribution professionnelle}
+% TODO: Valeur pour Prime&Co et le secteur
+
+\section{Bilan général}
+% TODO: Réflexion personnelle et professionnelle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% RÉFÉRENCES BIBLIOGRAPHIQUES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\backmatter
+
+% \printbibliography[heading=bibintoc, title=Références bibliographiques]
+
+\chapter*{Références bibliographiques}
+\addcontentsline{toc}{chapter}{Références bibliographiques}
+
+% TODO: Ajouter les références (ou utiliser BibLaTeX avec le fichier references.bib)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ANNEXES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+
+\chapter{Cas d'usage détaillés}
+% TODO: Tous les cas d'usage avec descriptions complètes
+
+\chapter{Diagrammes BPMN complets}
+% TODO: Versions complètes des processus
+
+\chapter{Diagrammes UML complets}
+% TODO: Tous les diagrammes UML
+
+\chapter{Exemples d'écrans}
+% TODO: Captures d'écran de l'application
+
+\chapter{Extraits de code}
+% TODO: Code simplifié (si autorisé)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FIN DU DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

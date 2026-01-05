@@ -1,0 +1,4 @@
+[0] Config.pm:307> INFO - This is Biber 2.19
+[0] Config.pm:310> INFO - Logfile is 'rapport_master.blg'
+[51] biber-darwin:340> INFO - === Sat Jan  3, 2026, 11:08:30
+[62] Biber.pm:419> INFO - Reading 'rapport_master.bcf'

@@ -1,8 +1,18 @@
 # Dependencies
-node_modules/
+node_modules
+dist
+.env
+.DS_Store
+*.log
+*.aux
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.out
+*.toc
+*.pdf
 
 # Environment
-.env
 .env.local
 
 # Database
