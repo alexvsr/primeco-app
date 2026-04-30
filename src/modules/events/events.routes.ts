@@ -3,6 +3,7 @@ import { authMiddleware, AuthenticatedRequest } from "../../middleware/auth";
 import { prisma } from "../../config/prisma";
 import { z } from "zod";
 import { requireRoles } from "../../middleware/roles";
+import { predire } from "../../services/predictionService";
 
 const router = Router();
 
@@ -643,6 +644,37 @@ router.get("/:eventId/hours/export", authMiddleware, async (req, res) => {
     totalStaff: new Set(rows.map(r => r.staffEmail)).size,
     rows
   });
+});
+
+// =====================================================
+// PREDICTION / RECOMMANDATION DE STOCK
+// =====================================================
+
+// Admin - Obtenir les recommandations de stock pour un événement
+router.get("/:eventId/predictions", authMiddleware, requireRoles("CHEF_OPS", "ADMIN"), async (req, res) => {
+    const eventId = Number(req.params.eventId);
+
+    // Valider le paramètre spectateurs
+    const spectateurParam = req.query.spectateurs;
+    if (!spectateurParam) {
+        return res.status(400).json({ message: "Le paramètre 'spectateurs' est requis (ex: ?spectateurs=12000)" });
+    }
+
+    const spectateurs = parseInt(spectateurParam as string, 10);
+    if (isNaN(spectateurs) || spectateurs < 0) {
+        return res.status(400).json({ message: "Le paramètre 'spectateurs' doit être un entier positif" });
+    }
+
+    // Récupérer l'événement
+    const event = await prisma.event.findUnique({ where: { id: eventId } });
+    if (!event) {
+        return res.status(404).json({ message: "Événement non trouvé" });
+    }
+
+    // Calculer la prédiction
+    const prediction = predire(eventId, spectateurs, event.name, event.date);
+
+    return res.json(prediction);
 });
 
 export default router;
